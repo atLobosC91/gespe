@@ -1,60 +1,45 @@
-<section id="project-details" class="project-details">
+<!-- Page Header -->
+<header class="py-5 bg-dark text-white text-center">
     <div class="container">
-        <div class="section-title">
-            <h3>PROYECTO N</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-        </div>
+        <h1>Proyecto 1 - Detalles</h1>
+        <p class="lead">Detalles completos de Proyecto 1. Soluciones industriales de alta calidad.</p>
+    </div>
+</header>
+
+<!-- Project Details -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center text-primary mb-5">Imágenes del Proyecto</h2>
         <div class="row">
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card">
-                    <img class="card-img-top" src="/assets/img/projects/project-1.jpg" alt="Project Image">
+            <!-- Image 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="/assets/img/projects/project-1a.jpg" class="card-img-top" alt="Imagen del Proyecto 1">
                     <div class="card-body">
-                        <h4 class="card-title">Project 1</h4>
-                        <p class="card-text">Descripción del proyecto 1.</p>
+                        <p class="card-text">Descripción breve de esta imagen.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card">
-                    <img class="card-img-top" src="/assets/img/projects/project-1.jpg" alt="Project Image">
+            <!-- Image 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="/assets/img/projects/project-1b.jpg" class="card-img-top" alt="Imagen del Proyecto 1">
                     <div class="card-body">
-                        <h4 class="card-title">Project 1</h4>
-                        <p class="card-text">Descripción del proyecto 1.</p>
+                        <p class="card-text">Descripción breve de esta imagen.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card">
-                    <img class="card-img-top" src="/assets/img/projects/project-1.jpg" alt="Project Image">
+            <!-- Image 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="/assets/img/projects/project-1c.jpg" class="card-img-top" alt="Imagen del Proyecto 1">
                     <div class="card-body">
-                        <h4 class="card-title">Project 1</h4>
-                        <p class="card-text">Descripción del proyecto 1.</p>
+                        <p class="card-text">Descripción breve de esta imagen.</p>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card">
-                    <img class="card-img-top" src="/assets/img/projects/project-1.jpg" alt="Project Image">
-                    <div class="card-body">
-                        <h4 class="card-title">Project 1</h4>
-                        <p class="card-text">Descripción del proyecto 1.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card">
-                    <img class="card-img-top" src="/assets/img/projects/project-1.jpg" alt="Project Image">
-                    <div class="card-body">
-                        <h4 class="card-title">Project 1</h4>
-                        <p class="card-text">Descripción del proyecto 1.</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Repeat similar blocks for other projects -->
         </div>
     </div>
 </section>

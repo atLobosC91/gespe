@@ -15,7 +15,7 @@
               <p class="animate__animated animate__fadeInUp">Ofrecemos soluciones integrales en montaje, mantenimiento
                 eléctrico, instrumentación y comunicación.</p>
               <div>
-                <a href="<?= site_url('/home/about_us'); ?>" class="btn-get-started animate__animated animate__fadeInUp scrollto">Saber Más</a>
+                <a href="<?= site_url('/about_us'); ?>" class="btn-get-started animate__animated animate__fadeInUp scrollto">Saber Más</a>
               </div>
             </div>
           </div>
@@ -29,7 +29,7 @@
               <p class="animate__animated animate__fadeInUp">Nos especializamos en el diseño y ejecución de proyectos
                 industriales, asegurando la calidad y eficiencia en cada etapa.</p>
               <div>
-                <a href="<?= site_url('/home/about_us'); ?>" class="btn-get-started animate__animated animate__fadeInUp scrollto">Saber Más</a>
+                <a href="<?= site_url('/about_us'); ?>" class="btn-get-started animate__animated animate__fadeInUp scrollto">Saber Más</a>
               </div>
             </div>
           </div>
@@ -43,7 +43,7 @@
               <p class="animate__animated animate__fadeInUp">Nuestro equipo altamente capacitado trabaja con
                 tecnología de punta para garantizar el cumplimiento de los estándares más exigentes.</p>
               <div>
-                <a href="<?= site_url('/home/about_us'); ?>" class="btn-get-started animate__animated animate__fadeInUp scrollto">Saber Más</a>
+                <a href="<?= site_url('/about_us'); ?>" class="btn-get-started animate__animated animate__fadeInUp scrollto">Saber Más</a>
               </div>
             </div>
           </div>
@@ -127,8 +127,8 @@
             <i class="bi bi-emoji-smile"></i>
             <span data-purecounter-start="0" data-purecounter-end="25" data-purecounter-duration="1"
               class="purecounter"></span>
-              <p><strong>Clientes Satisfechos</strong><br /> adipisci atque cum quia aut</p>
-              </div>
+            <p><strong>Clientes Satisfechos</strong><br /> adipisci atque cum quia aut</p>
+          </div>
         </div>
 
         <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
@@ -219,50 +219,50 @@
         <!-- Service 1 -->
         <div class="col-lg-3 col-md-6 mb-4">
           <div class="card h-100 shadow-sm">
-            <img class="card-img-top" src="/assets/img/services/services-1.jpg" alt="Servicio 1">
+            <img class="card-img-top" src="Aquí va la imagen que aparece en el " alt="Servicio 1">
             <div class="card-body d-flex flex-column">
               <h4 class="card-title">Electricidad Industrial</h4>
               <p class="card-text flex-grow-1">Descripción del servicio 1. Proporcionamos soluciones de alta calidad para satisfacer sus necesidades industriales.</p>
-              <a href="proyecto/1" class="btn btn-primary mt-auto">Ver Proyectos</a>
+              <a href="<?= site_url('service_project'); ?>" class="btn btn-primary mt-auto">Ver Proyectos</a>
             </div>
           </div>
         </div>
 
         <!-- Service 2 -->
-        <div class="col-lg-3 col-md-6 mb-4">
+        <!-- <div class="col-lg-3 col-md-6 mb-4">
           <div class="card h-100 shadow-sm">
             <img class="card-img-top" src="/assets/img/services/services-2.jpg" alt="Servicio 2">
             <div class="card-body d-flex flex-column">
               <h4 class="card-title">Montaje Industrial</h4>
               <p class="card-text flex-grow-1">Descripción del servicio 2. Nuestros servicios son reconocidos por su excelencia y eficacia.</p>
-              <a href="proyecto/2" class="btn btn-primary mt-auto">Ver Proyectos</a>
+              <a href="" class="btn btn-primary mt-auto">Ver Proyectos</a>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- Service 3 -->
-        <div class="col-lg-3 col-md-6 mb-4">
+        <!-- <div class="col-lg-3 col-md-6 mb-4">
           <div class="card h-100 shadow-sm">
             <img class="card-img-top" src="/assets/img/services/services-3.jpg" alt="Servicio 3">
             <div class="card-body d-flex flex-column">
               <h4 class="card-title">Mantenimiento Industrial </h4>
               <p class="card-text flex-grow-1">Descripción del servicio 3. Innovamos constantemente para ofrecerle los mejores resultados.</p>
-              <a href="proyecto/3" class="btn btn-primary mt-auto">Ver Proyectos</a>
+              <a href="" class="btn btn-primary mt-auto">Ver Proyectos</a>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- Service 4 -->
-        <div class="col-lg-3 col-md-6 mb-4">
+        <!-- <div class="col-lg-3 col-md-6 mb-4">
           <div class="card h-100 shadow-sm">
             <img class="card-img-top" src="/assets/img/services/services-4.jpg" alt="Servicio 4">
             <div class="card-body d-flex flex-column">
               <h4 class="card-title">Comunicación Industrial</h4>
               <p class="card-text flex-grow-1">Descripción del servicio 4. Su satisfacción es nuestra máxima prioridad.</p>
-              <a href="proyecto/4" class="btn btn-primary mt-auto">Ver Proyectos</a>
+              <a href="" class="btn btn-primary mt-auto">Ver Proyectos</a>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </section><!-- End Services Section -->

@@ -757,6 +757,7 @@ section {
   margin-top: 60px;
 }
 
+
 .services .icon-box {
   margin-bottom: 20px;
   text-align: center;
@@ -791,12 +792,6 @@ section {
   background-size: cover;
   background-position: center;
 }
-
-.services .card-img-top:hover{
-  transform: scale(1.2);
-  transition: transform 0.5s;
-}
-
 
 
 .services .title {

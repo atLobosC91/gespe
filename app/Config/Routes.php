@@ -9,21 +9,18 @@ use CodeIgniter\Router\RouteCollection;
 // Página Principal
 $routes->get('/', 'Home::index');
 $routes->get('/about_us', 'Home::about_us');
-$routes->get('/services', 'Home::services');
+$routes->get('/service_project', 'Home::service_project');
 $routes->get('/project', 'Home::project');
-$routes->get('/proyecto/detalle_proyecto', 'Home::project');
-/* $routes->get('services/(:num)', 'Servicio::/$1'); */
-/* $routes->get('/services', 'ServicioController::index'); */
 
 
 
 //Entrar a la app
-$routes->get('gespe', 'LoginController::index');
+/* $routes->get('gespe', 'LoginController::index');
 $routes->get('usuarios', 'UsuarioController::index');
 $routes->get('usuarios/crear', 'UsuarioController::crear');
 $routes->post('usuarios/guardar', 'UsuarioController::guardar');
 $routes->get('login', 'LoginController::index');
-$routes->post('login/login', 'LoginController::login');
+$routes->post('login/login', 'LoginController::login'); */
 
 
 //Dashboard respecto a rol
