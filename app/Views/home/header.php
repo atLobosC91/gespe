@@ -50,7 +50,7 @@
         <ul>
           <li><a class="nav-link scrollto active" href="<?= site_url(''); ?>">Inicio</a></li>
           <li><a class="nav-link scrollto" href="<?= site_url('about_us'); ?>">Nosotros</a></li>
-          <li><a class="nav-link scrollto" href="<?= site_url('service'); ?>">Servicios</a></li>
+          <li><a class="nav-link scrollto" href="#services">Servicios</a></li>
           <li><a class="nav-link scrollto" href="#contact">Contacto</a></li>
           <li><a class="getstarted scrollto" href="#about">Comencemos</a></li>
         </ul>

@@ -1,116 +1,63 @@
-<!DOCTYPE html>
-<html lang="es">
+<?= $this->include('gespe/incluir/header_app') ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Inicio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .sidebar {
-            height: 100vh;
-            background-color: #f1f1f1;
-            padding: 10px;
-        }
-
-        .sidebar a {
-            display: block;
-            padding: 10px;
-            color: #000;
-            text-decoration: none;
-        }
-
-        .sidebar a:hover {
-            background-color: #ddd;
-        }
-
-        .dashboard-content {
-            padding: 20px;
-        }
-
-        .info-card {
-            background-color: #e9ecef;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav class="col-md-2 d-none d-md-block sidebar">
-                <div class="position-sticky">
-                    <h4>LOGO</h4>
-                    <a href="#">Panel de Inicio</a>
-                    <a href="#">Solicitudes</a>
-                    <a href="#">Mis Permisos</a>
-                    <ul>
-                        <li><a href="#">Nuevo Permiso</a></li>
-                        <li><a href="#">Listado Permisos</a></li>
-                    </ul>
-                    <a href="#">Administración</a>
-                    <ul>
-                        <li><a href="#">Usuarios</a></li>
-                        <li><a href="#">Roles</a></li>
-                        <li><a href="#">Áreas</a></li>
-                        <li><a href="#">Tipo Permiso</a></li>
-                    </ul>
-                    <a href="#">Configuración</a>
-                    <ul>
-                        <li><a href="#">Mi Perfil</a></li>
-                    </ul>
-                </div>
-            </nav>
-
-            <!-- Main content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 dashboard-content">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h2>Panel de Inicio</h2>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <div class="btn-group me-2">
-                            <span>Bienvenido (a) - RRHH</span>
-                        </div>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <!-- Menu del Administrador -->
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <a class="nav-link" href="index.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        PANEL DE INICIO
+                    </a>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        GESTIÓN DE USUARIOS
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="/usuarios/crear">Crear Usuario</a>
+                            <a class="nav-link" href="/usuarios/ver">Ver Usuarios</a>
+                            <a class="nav-link" href="/usuarios/editar">Editar Usuarios</a>
+                            <a class="nav-link" href="/usuarios/eliminar">Eliminar Usuarios</a>
+                        </nav>
                     </div>
+                    <a class="nav-link" href="/nomina">
+                        <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
+                        NÓMINA DE TRABAJADORES
+                    </a>
+                    <a class="nav-link" href="/permisos/solicitudes">
+                        <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
+                        GESTIÓN DE PERMISOS
+                    </a>
+                    <div class="sb-sidenav-menu-heading">CONFIGURACIÓN</div>
+                    <a class="nav-link" href="/perfil">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
+                        PERFIL
+                    </a>
                 </div>
-
-                <!-- User Info Section -->
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <div class="info-card">
-                            <h5>Bienvenido (a): Usuario X</h5>
-                            <p><strong>Rol:</strong> RRHH &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Email:</strong> user@insid.cl &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Teléfono:</strong> +56912345678</p>
-                            <p><strong>Dirección:</strong> Villa Aleatoria, Pasaje 5 #1234 &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Ciudad:</strong> Yerbas Buenas</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Metrics Section -->
-                <div class="row text-center">
-                    <div class="col-md-6">
-                        <div class="info-card">
-                            <h6>Días Solicitados Mes Actual</h6>
-                            <h3>0</h3>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="info-card">
-                            <h6>Días Solicitados Totales</h6>
-                            <h3>4</h3>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
+            </div>
+        </nav>
     </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">PANEL DE INICIO</h1>
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header">
+                        <h3 class="font-weight-light my-4">Bienvenido (a): <?= $usuario['nombres'] ?> <?= $usuario['apellidos'] ?></h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Rol: Administrador</p>
+                        <p>Email: <?= $usuario['correo'] ?></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+<?= $this->include('gespe/incluir/footer_app') ?>

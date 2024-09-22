@@ -165,107 +165,57 @@
 
   <!-- ======= Clients Section ======= -->
   <section id="clients" class="clients section-bg">
-
     <div class="container">
-
-    </div>
-    <div class="row">
-
-      <div class="col-lg-3 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="/assets/img/clients/client-1.png" class="img-fluid" alt="">
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="/assets/img/clients/client-2.png" class="img-fluid" alt="">
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="/assets/img/clients/client-3.png" class="img-fluid" alt="">
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="/assets/img/clients/client-4.png" class="img-fluid" alt="">
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="/assets/img/clients/client-5.png" class="img-fluid" alt="">
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="/assets/img/clients/client-6.png" class="img-fluid" alt="">
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="/assets/img/clients/client-7.png" class="img-fluid" alt="">
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-6 d-flex align-items-center justify-content-center">
-        <img src="/assets/img/clients/client-8.png" class="img-fluid" alt="">
+      <div class="row">
+        <?php if (!empty($clientes)): ?>
+          <?php foreach ($clientes as $cliente): ?>
+            <div class="col-lg-3 col-md-4 col-6 d-flex align-items-center justify-content-center">
+              <a href="<?= $cliente->url_pagina ?>" target="_blank">
+                <img src="<?= $cliente->logo ?>" class="img-fluid" alt="<?= $cliente->nombre_cliente ?>">
+              </a>
+            </div>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <p>No hay clientes disponibles en este momento.</p>
+        <?php endif; ?>
       </div>
     </div>
+  </section>
+  <!-- End Clients Section -->
 
-    </div>
-  </section><!-- End Clients Section -->
 
   <!-- ======= Services Section ======= -->
-  <section id="services" class="services ">
+  <section id="services" class="services">
     <div class="container">
       <div class="section-title text-center mb-5">
         <h2>¿QUÉ OFRECEMOS?</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc maximus, justo at commodo maximus, sapien dui mattis dui, non pulvinar lorem felis nec erat.</p>
+        <p>Descubre nuestros servicios destacados, diseñados para cumplir con las necesidades más exigentes de la industria.</p>
       </div>
 
       <div class="row">
-        <!-- Service 1 -->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card h-100 shadow-sm">
-            <img class="card-img-top" src="Aquí va la imagen que aparece en el " alt="Servicio 1">
-            <div class="card-body d-flex flex-column">
-              <h4 class="card-title">Electricidad Industrial</h4>
-              <p class="card-text flex-grow-1">Descripción del servicio 1. Proporcionamos soluciones de alta calidad para satisfacer sus necesidades industriales.</p>
-              <a href="<?= site_url('service_project'); ?>" class="btn btn-primary mt-auto">Ver Proyectos</a>
-            </div>
-          </div>
-        </div>
+        <?php if (!empty($servicios)): ?>
+          <?php foreach ($servicios as $servicio): ?>
 
-        <!-- Service 2 -->
-        <!-- <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card h-100 shadow-sm">
-            <img class="card-img-top" src="/assets/img/services/services-2.jpg" alt="Servicio 2">
-            <div class="card-body d-flex flex-column">
-              <h4 class="card-title">Montaje Industrial</h4>
-              <p class="card-text flex-grow-1">Descripción del servicio 2. Nuestros servicios son reconocidos por su excelencia y eficacia.</p>
-              <a href="" class="btn btn-primary mt-auto">Ver Proyectos</a>
+            <!-- Service Card -->
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card h-100 shadow-sm">
+                <img class="card-img-top" src="<?= $servicio->url_imagen ?>" alt="<?= $servicio->titulo ?>">
+                <div class="card-body d-flex flex-column">
+                  <h4 class="card-title"><?= $servicio->titulo ?></h4>
+                  <a href="<?= site_url('Home/service_project/' . $servicio->id_servicio); ?>" class="btn btn-primary mt-auto">Ver Proyectos</a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div> -->
-
-        <!-- Service 3 -->
-        <!-- <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card h-100 shadow-sm">
-            <img class="card-img-top" src="/assets/img/services/services-3.jpg" alt="Servicio 3">
-            <div class="card-body d-flex flex-column">
-              <h4 class="card-title">Mantenimiento Industrial </h4>
-              <p class="card-text flex-grow-1">Descripción del servicio 3. Innovamos constantemente para ofrecerle los mejores resultados.</p>
-              <a href="" class="btn btn-primary mt-auto">Ver Proyectos</a>
-            </div>
-          </div>
-        </div> -->
-
-        <!-- Service 4 -->
-        <!-- <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card h-100 shadow-sm">
-            <img class="card-img-top" src="/assets/img/services/services-4.jpg" alt="Servicio 4">
-            <div class="card-body d-flex flex-column">
-              <h4 class="card-title">Comunicación Industrial</h4>
-              <p class="card-text flex-grow-1">Descripción del servicio 4. Su satisfacción es nuestra máxima prioridad.</p>
-              <a href="" class="btn btn-primary mt-auto">Ver Proyectos</a>
-            </div>
-          </div>
-        </div> -->
+          <?php endforeach; ?>
+        <?php else: ?>
+          <p>No hay servicios disponibles en este momento.</p>
+        <?php endif; ?>
       </div>
     </div>
-  </section><!-- End Services Section -->
+  </section>
+  <!-- End Services Section -->
+
+
 
   <!-- ======= Contact Section ======= -->
   <section id="contact" class="contact ">

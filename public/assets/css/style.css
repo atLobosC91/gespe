@@ -70,9 +70,9 @@ h6 {
 # Header
 --------------------------------------------------------------*/
 #header {
-  background: rgba(0, 0, 0, 0.75);
-  transition: all 0.5s;
-  z-index: 997;
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  z-index: 1000;
   height: 80px;
 }
 
@@ -119,6 +119,7 @@ h6 {
 .navbar>ul>li {
   white-space: nowrap;
   padding: 10px 0 10px 22px;
+  margin-left: 20px;
 }
 
 .navbar a,
@@ -128,7 +129,7 @@ h6 {
   justify-content: space-between;
   padding: 0 4px;
   font-family: "Roboto", sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.7);
   white-space: nowrap;
@@ -173,19 +174,21 @@ h6 {
 
 .navbar .getstarted,
 .navbar .getstarted:focus {
-  padding: 8px 25px;
+  padding: 10px 20px;
   margin-left: 12px;
-  border-radius: 4px;
+  border-radius: 50px;
   color: #fff;
   font-weight: 400;
   font-family: "Poppins", sans-serif;
+  font-weight: bold;
   border: 2px solid #0095D7;
 }
 
 .navbar .getstarted:hover,
 .navbar .getstarted:focus:hover {
   color: #fff;
-  background: #0095D7;
+  background-color: #0095D7;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .navbar .getstarted:hover:before,
@@ -275,6 +278,8 @@ h6 {
 .mobile-nav-toggle.bi-x {
   color: #0095D7;
 }
+
+
 
 @media (max-width: 991px) {
   .mobile-nav-toggle {
