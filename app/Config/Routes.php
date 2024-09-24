@@ -23,4 +23,4 @@ $routes->get('/logout', 'Auth::logout');
 $routes->get('/gespe/gerente', 'Gespe::gerente');
 $routes->get('/gespe/administrador', 'Gespe::administrador');
 $routes->get('/gespe/supervisor', 'Gespe::supervisor');
-$routes->get('/gespe/operativo', 'Gespe::operativo');
+$routes->get('/gespe/operativo/panelInicio', 'Gespe::panelInicio');

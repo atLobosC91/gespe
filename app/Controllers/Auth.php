@@ -2,12 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Models\UsuarioModel;
+use App\Models\UsuarioModel;  // Importa tu modelo de usuario
 
 class Auth extends BaseController
 {
     public function index()
     {
+        // Mostrar la vista de login
         return view('login');
     }
 
@@ -35,13 +36,13 @@ class Auth extends BaseController
                 // Redirigir según el rol
                 switch ($userData['id_rol']) {
                     case 1: // Gerente
-                        return redirect()->to('/gespe/gerente');
+                        return redirect()->to('/gespe/gerente/panelInicio');
                     case 2: // Administrador
-                        return redirect()->to('/gespe/administrador');
+                        return redirect()->to('/gespe/administrador/panelInicio');
                     case 3: // Supervisor
-                        return redirect()->to('/gespe/supervisor');
+                        return redirect()->to('/gespe/supervisor/panelInicio');
                     case 4: // Operativo
-                        return redirect()->to('/gespe/operativo');
+                        return redirect()->to('/gespe/operativo/panelInicio');
                     default:
                         return redirect()->to('/');
                 }

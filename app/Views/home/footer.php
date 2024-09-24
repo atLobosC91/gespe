@@ -22,9 +22,10 @@
                             <strong>Email:</strong> ejemplo@insid.cl<br>
                         </p>
                         <div class="social-links mt-3">
-                            <a href="#" class="facebook"><i class="bx bxl-facebook" style="font-size: 1em;"></i></a>
-                            <a href="#" class="instagram"><i class="bx bxl-instagram" style="font-size: 1em;"></i></a>
-                            <a href="#" class="linkedin"><i class="bx bxl-linkedin" style="font-size: 1em;"></i></a>
+
+                            <a href="#" class="facebook"><i class="bi bi-facebook" style="font-size: 1em;"></i></a>
+                            <a href="#" class="instagram"><i class="bi bi-instagram" style="font-size: 1em;"></i></a>
+                            <a href="#" class="linkedin"><i class="bi bi-linkedin" style="font-size: 1em;"></i></a>
                         </div>
                     </div>
                 </div>
