@@ -13,10 +13,10 @@
 </div>
 </div>
 
-<script src="../assets/js/bootstrap.bundle.min.js"></script>
-<script src="../assets/js/main.js"></script>
-<script src="../assets/js/Chart.min.js"></script>
-<script src="../assets/js/simple-datatables.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/Chart.min.js"></script>
+<script src="/assets/js/simple-datatables.min.js"></script>
 </body>
 
 </html>

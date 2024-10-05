@@ -46,6 +46,13 @@ class Home extends BaseController
         $proyectoModel = new ProyectoModel();
         $proyectos = $proyectoModel->where('id_servicio', $id_servicio)->findAll();
 
+
+        $imagenModel = new ImagenModel();
+        // Agregar la primera imagen de cada proyecto
+        foreach ($proyectos as &$proyecto) {
+            $primeraImagen = $imagenModel->getFirstImageByProject($proyecto['id_proyecto']);
+            $proyecto['ruta_imagen'] = $primeraImagen ? $primeraImagen['ruta_imagen'] : null;
+        }
         // Pasar los datos a la vista
         $data = [
             'servicio' => $servicio,

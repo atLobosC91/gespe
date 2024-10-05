@@ -18,23 +18,16 @@
     rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-  <link href="<?= base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
+  <link href="/assets/css/animate.min.css" rel="stylesheet">
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <link href="/assets/css/glightbox.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
+  <link href="/assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: Groovin
-  * Template URL: https://bootstrapmade.com/groovin-free-bootstrap-theme/
-  * Updated: Mar 17 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
@@ -49,7 +42,7 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="<?= site_url(''); ?>">Inicio</a></li>
-          <li><a class="nav-link scrollto" href="<?= site_url('about_us'); ?>">Nosotros</a></li>
+          <li><a class="nav-link scrollto" href="#about">Nosotros</a></li>
           <li><a class="nav-link scrollto" href="#services">Servicios</a></li>
           <li><a class="nav-link scrollto" href="#contact">Contacto</a></li>
           <li><a class="getstarted scrollto" href="#about">Comencemos</a></li>

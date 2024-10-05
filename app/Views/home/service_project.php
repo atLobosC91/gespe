@@ -1,3 +1,4 @@
+<br><br>
 <!-- ======= Projects Section ======= -->
 <section id="projects" class="projects py-5" style="background-color: #f5f7fa;">
     <div class="container">
@@ -14,15 +15,14 @@
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card h-100 shadow-sm border-0 text-center project-card">
                             <?php if (isset($proyecto['url_imagen'])): ?>
-                                <img class="card-img-top img-fluid" src="<?= $proyecto['url_imagen'] ?>" alt="<?= $proyecto['titulo'] ?>">
+                                <img class="card-img-top img-fluid" src="<?= $proyecto['ruta_imagen'] ?>" alt="<?= $proyecto['titulo'] ?>">
                             <?php else: ?>
                                 <img class="card-img-top img-fluid" src="/ruta/default_image.jpg" alt="<?= $proyecto['titulo'] ?>">
                             <?php endif; ?>
                             <div class="card-body d-flex flex-column p-4">
-                                <h4 class="card-title text-uppercase" style="color: #343a40; font-weight: 600;"><?= $proyecto['titulo'] ?></h4>
-                                <p class="card-text text-muted flex-grow-1"><?= $proyecto['descripcion'] ?></p>
+                                <h2 class="card-title"><?= $proyecto['titulo'] ?></h2>
                                 <p class="card-text text-muted"><strong>Fecha:</strong> <?= $proyecto['fecha'] ?></p>
-                                <a href="<?= site_url('project_detail/' . $proyecto['id_proyecto']); ?>" class="btn btn-primary mt-auto" style="background-color: #0095D7; border: none;">Ver Detalles</a>
+                                <a href="<?= site_url('project_detail/' . $proyecto['id_proyecto']); ?>" class="btn btn-primary mt-auto">Ver Detalles</a>
                             </div>
                         </div>
                     </div>

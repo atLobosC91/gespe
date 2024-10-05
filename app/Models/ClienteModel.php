@@ -6,10 +6,10 @@ use CodeIgniter\Model;
 
 class ClienteModel extends Model
 {
-    protected $table = 'cliente'; // Nombre de la tabla
-    protected $primaryKey = 'id_cliente'; // Clave primaria de la tabla
-    protected $allowedFields = ['nombre_cliente', 'url_pagina', 'logo', 'activo']; // Campos que se pueden modificar
-
+    protected $table = 'cliente';
+    protected $primaryKey = 'id_cliente';
+    protected $allowedFields = ['nombre_cliente', 'url_pagina', 'logo', 'activo']; 
+    
     // Método para obtener los clientes activos
     public function getActiveClients()
     {

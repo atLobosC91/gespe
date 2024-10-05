@@ -16,40 +16,23 @@ class Gespe extends BaseController
         $this->session = session();
     }
 
-    public function gerente()
+    public function panelInicio()
     {
         // Obtener datos del usuario logueado
         $usuario = $this->getUserData();
 
-        // Pasar los datos a la vista
-        return view('gespe/gerente/panelInicio', ['usuario' => $usuario]);
-    }
+        // Si el usuario no está logueado, redirigir al login
+        if (!is_array($usuario)) {
+            return $usuario; // Esto redirige al login si no hay sesión activa
+        }
 
-    public function administrador()
-    {
-        // Obtener datos del usuario logueado
-        $usuario = $this->getUserData();
+        // Obtener el rol del usuario
+        $rol = $usuario['id_rol'];
 
-        // Pasar los datos a la vista
-        return view('gespe/administrador/panelInicio', ['usuario' => $usuario]);
-    }
-
-    public function supervisor()
-    {
-        // Obtener datos del usuario logueado
-        $usuario = $this->getUserData();
-
-        // Pasar los datos a la vista
-        return view('gespe/supervisor/panelInicio', ['usuario' => $usuario]);
-    }
-
-    public function operativo()
-    {
-        // Obtener datos del usuario logueado
-        $usuario = $this->getUserData();
-
-        // Pasar los datos a la vista
-        return view('gespe/operativo/panelInicio', ['usuario' => $usuario]);
+        // Cargar la vista unificada con el rol y los datos del usuario
+        return view('gespe/incluir/header_app', ['usuario' => $usuario, 'rol' => $rol])
+            . view('gespe/panelInicio', ['usuario' => $usuario, 'rol' => $rol])
+            . view('gespe/incluir/footer_app');
     }
 
     // Método privado para obtener los datos del usuario logueado

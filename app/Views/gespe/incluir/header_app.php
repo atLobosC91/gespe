@@ -1,3 +1,10 @@
+<?php
+
+// Esta parte es donde inicias la sesión y obtienes el rol del usuario
+$rol = $usuario['id_rol']; // Suponiendo que 'id_rol' contiene el número que define el rol (1=Gerente, 2=Administrador, etc.)
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,15 +15,17 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>PANEL DE INICIO</title>
-    <link href="../assets/css/style.min.css" rel="stylesheet">
-    <link href="../assets/css/styles_app.css" rel="stylesheet">
-    <script src="../assets/js/all.js"></script>
+    <link href="/assets/css/style.min.css" rel="stylesheet">
+    <link href="/assets/css/styles_app.css" rel="stylesheet">
+    <script src="/assets/js/all.js"></script>
 </head>
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">LOGO</a>
+        <a href="<?= site_url(''); ?>" class="logo">
+            <img src="/assets/img/logo.png" alt="" class="img-fluid">
+        </a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
@@ -29,7 +38,9 @@
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"><i class="fas fa-user fa-fw"></i><p>Bienvenido, <?= $this->session->get('nombre'); ?></a>
+                    aria-expanded="false"><i class="fas fa-user fa-fw"></i>
+
+                </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="#!">Cerrar Sesión</a></li>
                 </ul>

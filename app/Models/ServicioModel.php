@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class ServicioModel extends Model
 {
-    protected $table = 'servicio'; // Nombre de la tabla
-    protected $primaryKey = 'id_servicio'; // Clave primaria
-    protected $allowedFields = ['titulo', 'descripcion', 'activo', 'url_imagen']; // Campos permitidos para insertar/actualizar
+    protected $table = 'servicio';
+    protected $primaryKey = 'id_servicio';
+    protected $allowedFields = ['titulo', 'descripcion', 'activo', 'url_imagen'];
 
-    // Método para obtener los servicios activos como objetos
+    // Método para obtener los servicios activos
     public function getActiveServices()
     {
-        return $this->asObject()->where('activo', 1)->findAll();  // Devolvemos los servicios como objetos
+        return $this->asObject()->where('activo', 1)->findAll();
     }
 }

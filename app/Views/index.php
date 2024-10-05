@@ -69,99 +69,80 @@
   <section id="about" class="about">
     <div class="container">
 
-      <div class="row no-gutters">
-        <div class="image col-xl-5 d-flex align-items-stretch justify-content-center justify-content-lg-start"></div>
-        <div class="col-xl-7 ps-0 ps-lg-5 pe-lg-1 d-flex align-items-stretch">
-          <div class="content d-flex flex-column justify-content-center section-title">
+      <div class="row no-gutters align-items-center">
+        <!-- Bloque de imagen -->
+        <div class="col-xl-5 d-flex align-items-center justify-content-center">
+          <div class="about-img-placeholder">
+            <img src="/assets/img/about.jpg" alt="Imagen de la empresa" class="img-fluid">
+          </div>
+        </div>
+
+        <!-- Contenido de texto -->
+        <div class="col-xl-7 ps-0 ps-lg-5 pe-lg-1">
+          <div class="content section-title">
             <h2>¿Quiénes Somos?</h2>
             <p>
               Contamos con más de 11 años de experiencia en mantenimiento y montaje industrial. Ofrecemos servicios de
               montaje de instalaciones industriales, mantención preventiva y montaje de equipos industriales. Además,
-              poseemos certificaciones CCS LEVINTON e ISO 9001:2015, que respaldan nuestra capacidad en redes
-              industriales con cable estructurado y fibra óptica, así como nuestro compromiso de trabajar con
-              estándares de calidad en beneficio de nuestros clientes.
-              <br /><br />
-              Es por esto, que nuestros valores forman parte de cuatro pilares fundamentales.
+              poseemos certificaciones CCS LEVINTON e ISO 9001:2015, que respaldan nuestra capacidad en redes industriales
+              con cable estructurado y fibra óptica.
             </p>
-            <div class="row">
-              <div class="col-md-6 icon-box">
-                <i class="bi bi-boxes"></i>
-                <h4>Integración</h4>
-                <p>Atendemos requerimientos en electricidad, instrumentación, control y comunicaciones, integrando
-                  tecnología continuamente en nuestros servicios.</p>
-              </div>
-              <div class="col-md-6 icon-box">
-                <i class="bi bi-shuffle"></i>
-                <h4>Flexibilidad</h4>
-                <p>Nos adaptamos a cualquier necesidad de nuestros clientes, gracias a la diversidad de nuestros
-                  servicios eléctricos.</p>
-              </div>
-              <div class="col-md-6 icon-box">
-                <i class="bi bi-briefcase"></i>
-                <h4>Profesionalismo</h4>
-                <p>Contamos con colaboradores de vasta experiencia y un gran sentido de la honestidad, responsabilidad
-                  y compromiso.</p>
-              </div>
-              <div class="col-md-6 icon-box">
-                <i class="bi bi-bag-check"></i>
-                <h4>Compromiso</h4>
-                <p>Estamos comprometidos con la calidad y satisfacción del cliente, reflejando esto en la atención a
-                  los detalles y la búsqueda de soluciones eficientes.</p>
-              </div>
-            </div>
-          </div><!-- End .content-->
+            <p>Es por esto, que nuestros valores forman parte de cuatro pilares fundamentales.</p>
+
+            <!-- Botón "Conocer más" -->
+            <a href="/about_us" class="btn-learn-more">Conocer más</a>
+
+          </div>
         </div>
       </div>
 
     </div>
-  </section><!-- End About Section -->
+  </section>
+  <!-- End About Section -->
+
+
 
   <!-- ======= Counts Section ======= -->
   <section id="counts" class="counts">
     <div class="container">
-
       <div class="row no-gutters">
 
         <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
           <div class="count-box">
             <i class="bi bi-emoji-smile"></i>
-            <span data-purecounter-start="0" data-purecounter-end="25" data-purecounter-duration="1"
-              class="purecounter"></span>
-            <p><strong>Clientes Satisfechos</strong><br /> adipisci atque cum quia aut</p>
+            <span data-purecounter-start="0" data-purecounter-end="25" data-purecounter-duration="1" class="purecounter"></span>
+            <p><strong>Clientes Satisfechos</strong><br /> Satisfacción garantizada.</p>
           </div>
         </div>
 
         <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
           <div class="count-box">
             <i class="bi bi-journal-richtext"></i>
-            <span data-purecounter-start="0" data-purecounter-end="64" data-purecounter-duration="1"
-              class="purecounter"></span>
-            <p><strong>Proyectos Ejecutados</strong><br /> adipisci atque cum quia aut</p>
+            <span data-purecounter-start="0" data-purecounter-end="133" data-purecounter-duration="1" class="purecounter"></span>
+            <p><strong>Proyectos Ejecutados</strong><br /> Eficiencia y calidad.</p>
           </div>
         </div>
 
         <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
           <div class="count-box">
             <i class="bi bi-people"></i>
-            <span data-purecounter-start="0" data-purecounter-end="60" data-purecounter-duration="1"
-              class="purecounter"></span>
-            <p><strong>Colaboradores</strong><br /> rerum asperiores dolor</p>
+            <span data-purecounter-start="0" data-purecounter-end="60" data-purecounter-duration="1" class="purecounter"></span>
+            <p><strong>Colaboradores</strong><br /> Equipo experto y dedicado.</p>
           </div>
         </div>
 
         <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
           <div class="count-box">
             <i class="bi bi-star"></i>
-            <span data-purecounter-start="0" data-purecounter-end="11" data-purecounter-duration="1"
-              class="purecounter"></span>
-            <p><strong>Experiencia</strong><br /> + 11 años</p>
+            <span data-purecounter-start="0" data-purecounter-end="11" data-purecounter-duration="1" class="purecounter"></span>
+            <p><strong>Años de Experiencia</strong><br /> Más de una década.</p>
           </div>
         </div>
 
       </div>
-
     </div>
-  </section><!-- End Counts Section -->
+  </section>
+  <!-- End Counts Section -->
 
   <!-- ======= Clients Section ======= -->
   <section id="clients" class="clients section-bg">
@@ -189,13 +170,12 @@
     <div class="container">
       <div class="section-title text-center mb-5">
         <h2>¿QUÉ OFRECEMOS?</h2>
-        <p>Descubre nuestros servicios destacados, diseñados para cumplir con las necesidades más exigentes de la industria.</p>
+        <p>Descubre nuestros servicios especializados en ingeniería industrial. Nos enfocamos en ofrecer soluciones integrales y de alta calidad en montaje, electricidad, automatización y comunicación industrial, adaptándonos a las necesidades de cada cliente. Nuestro equipo está comprometido con los más altos estándares de seguridad y eficiencia para garantizar resultados confiables en cada proyecto.</p>
       </div>
 
       <div class="row">
         <?php if (!empty($servicios)): ?>
           <?php foreach ($servicios as $servicio): ?>
-
             <!-- Service Card -->
             <div class="col-lg-3 col-md-6 mb-4">
               <div class="card h-100 shadow-sm">
@@ -213,6 +193,7 @@
       </div>
     </div>
   </section>
+
   <!-- End Services Section -->
 
 

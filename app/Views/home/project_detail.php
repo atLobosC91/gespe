@@ -1,3 +1,4 @@
+<br><br>
 <!-- ======= Project Details Section ======= -->
 <section id="project-details" class="project-details py-5" style="background-color: #f5f7fa;">
     <div class="container">

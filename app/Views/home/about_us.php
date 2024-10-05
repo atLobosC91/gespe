@@ -21,7 +21,7 @@
 <!-- ======= Servicios Section ======= -->
 <section id="about" class="about section-title bg-light py-5">
     <div class="container">
-        <h2 class="text-center text-primary mb-5">Detrás de Nuestros Servicios</h2>
+        <h2 class="text-center mb-5">Detrás de Nuestros Servicios</h2>
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <p class="text-center">
@@ -67,22 +67,27 @@
 <!-- ======= Gerencia Section ======= -->
 <section id="leadership" class="leadership section-title py-5">
     <div class="container">
-        <h2 class="text-center text-primary mb-5">Reflexiones de Nuestro Liderazgo</h2>
+        <h2 class="text-center mb-5">Reflexiones de Nuestro Liderazgo</h2>
         <div class="row">
-            <div class="col-md-6 mb-4 d-flex align-items-center">
-                <img src="/assets/img/team/team-1.jpg" class="img-thumbnail img-fluid mr-6 shadow rounded" alt="Pedro Acuña G." style="max-width: 150px;">
-                <div>
-                    <h4>Pedro Acuña G.</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, eius quia maxime unde ut fuga at? Explicabo suscipit laboriosam dolore aliquid error expedita ullam.</p>
+            <div class="col-md-6 mb-4 d-flex flex-column align-items-center">
+                <div class="card shadow-sm h-100 border-0">
+                    <img src="/assets/img/team/team-1.jpg" class="card-img-top" alt="Pedro Acuña" style="object-fit: cover; height: 300px;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Pedro Acuña G.</h5>
+                        <p class="card-text">“Nuestra empresa se esfuerza diariamente por mantener altos estándares de calidad, adaptándonos a las necesidades cambiantes de nuestros clientes”.</p>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6 mb-4 d-flex align-items-center">
-                <img src="/assets/img/team/team-3.jpg" class="img-thumbnail img-fluid mr-6 shadow rounded" alt="Alexi Rojas V." style="max-width: 150px;">
-                <div>
-                    <h4>Alexi Rojas V.</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, eius quia maxime unde ut fuga at? Explicabo suscipit laboriosam dolore aliquid error expedita ullam.</p>
+            <div class="col-md-6 mb-4 d-flex flex-column align-items-center">
+                <div class="card shadow-sm h-100 border-0">
+                    <img src="/assets/img/team/team-2.jpg" class="card-img-top" alt="Alexi Rojas" style="object-fit: cover; height: 300px;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Alexi Rojas V.</h5>
+                        <p class="card-text">“La clave de nuestro éxito radica en nuestro equipo capacitado y comprometido, siempre dispuesto a superar las expectativas del cliente”.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</section><!-- End Gerencia Section -->
+</section>
+<!-- End Gerencia Section -->
