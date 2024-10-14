@@ -28,3 +28,12 @@ $routes->get('gespe/solicitud/detalles/(:num)', 'SolicitudController::obtenerDet
 
 $routes->get('gespe/solicitud/nuevaSolicitud', 'SolicitudController::nuevaSolicitud');
 $routes->post('gespe/solicitud/crearSolicitud', 'SolicitudController::crearSolicitud');
+
+
+$routes->get('gespe/perfil/mi_perfil', 'SolicitudController::mi_perfil');
+$routes->post('gespe/perfil/actualizarPerfil', 'SolicitudController::actualizarPerfil');
+
+
+$routes->get('gespe/solicitud/solicitudesDerivadas', 'SolicitudController::solicitudesDerivadas');
+$routes->get('gespe/solicitud/aprobarSolicitud/(:num)', 'SolicitudController::aprobarSolicitud/$1');
+$routes->get('gespe/solicitud/rechazarSolicitud/(:num)', 'SolicitudController::rechazarSolicitud/$1');

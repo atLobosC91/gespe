@@ -9,31 +9,36 @@
             <a href="<?= site_url('gespe/solicitud/nuevaSolicitud') ?>" class="btn btn-success" style="margin-top: 20px; margin-left: 20px;">
                 <i class="fa-solid fa-plus"></i> Nueva Solicitud
             </a>
-            <!-- Información adicional del usuario -->
+
+
+
+            <!-- Mostrar las solicitudes de permisos -->
             <div class="card card-body" style="margin: 20px; padding: 20px">
                 <?php if (!empty($permisos)) : ?>
                     <div class="table-responsive">
                         <table class="table table-bordered border-primary">
                             <thead>
                                 <tr>
-                                    <!-- <th>ID</th> -->
+                                    <th>ID</th>
                                     <th>Tipo Permiso</th>
                                     <th>Desde</th>
                                     <th>Hasta</th>
                                     <th>Estado</th>
+                                    <th>Supervisor</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($permisos as $permiso) : ?>
                                     <tr>
-
-                                        <td><?= $permiso['tipo_permiso'] ?></td> <!-- Mostrar descripción del tipo de permiso -->
-                                        <td><?= $permiso['fecha_hora_inicio'] ?></td>
-                                        <td><?= $permiso['fecha_hora_fin'] ?></td>
-                                        <td><?= $permiso['estado'] ?></td> <!-- Mostrar descripción del estado -->
+                                        <td><?= esc($permiso['id_solicitud']) ?></td>
+                                        <td><?= esc($permiso['tipo_permiso']) ?></td>
+                                        <td><?= esc($permiso['fecha_hora_inicio']) ?></td>
+                                        <td><?= esc($permiso['fecha_hora_fin']) ?></td>
+                                        <td><?= esc($permiso['estado']) ?></td>
+                                        <td><?= esc($permiso['supervisor']) ?></td>
                                         <td>
-                                            <a href="?id_solicitud=<?= $permiso['id_solicitud'] ?>" class="btn btn-primary">
+                                            <a href="<?= site_url('gespe/solicitud/misSolicitudes') . '?page=' . $currentPage . '&id_solicitud=' . esc($permiso['id_solicitud']) ?>" class="btn btn-primary">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
                                         </td>
@@ -42,6 +47,12 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Componente de paginación -->
+                    <div class="pagination justify-content-center">
+                        <?= $pager->links('solicitudes', 'default_full') ?> <!-- Renderiza los links de paginación -->
+                    </div>
+
                 <?php else : ?>
                     <p>No tienes permisos solicitados.</p>
                 <?php endif; ?>
@@ -55,35 +66,42 @@
                     <div class="row g-3 mt-2">
                         <div class="col-md-4">
                             <label for="detalleId" class="form-label">ID</label>
-                            <input type="text" id="detalleId" class="form-control" value="<?= $detallePermiso['id_solicitud'] ?>" readonly>
+                            <input type="text" id="detalleId" class="form-control" value="<?= esc($detallePermiso['id_solicitud']) ?>" readonly>
                         </div>
 
                         <div class="col-md-4">
                             <label for="detalleTipoPermiso" class="form-label">Tipo Permiso</label>
-                            <input type="text" id="detalleTipoPermiso" class="form-control" value="<?= $detallePermiso['tipo_permiso'] ?>" readonly> <!-- Mostrar descripción del tipo de permiso -->
+                            <input type="text" id="detalleTipoPermiso" class="form-control" value="<?= esc($detallePermiso['tipo_permiso']) ?>" readonly>
                         </div>
 
                         <div class="col-md-4">
                             <label for="detalleEstado" class="form-label">Estado</label>
-                            <input type="text" id="detalleEstado" class="form-control" value="<?= $detallePermiso['estado'] ?>" readonly> <!-- Mostrar descripción del estado -->
+                            <input type="text" id="detalleEstado" class="form-control" value="<?= esc($detallePermiso['estado']) ?>" readonly>
                         </div>
 
                         <div class="col-md-4">
-                            <label for="detalleFechaInicio" class="form-label">Desde - Ej: 2024-01-01 08:00:00</label>
-                            <input type="text" id="detalleFechaInicio" class="form-control" value="<?= $detallePermiso['fecha_hora_inicio'] ?>" readonly>
+                            <label for="detalleFechaInicio" class="form-label">Desde</label>
+                            <input type="text" id="detalleFechaInicio" class="form-control" value="<?= esc($detallePermiso['fecha_hora_inicio']) ?>" readonly>
                         </div>
 
                         <div class="col-md-4">
-                            <label for="detalleFechaFin" class="form-label">Hasta - Ej: 2024-01-01 18:00:00</label>
-                            <input type="text" id="detalleFechaFin" class="form-control" value="<?= $detallePermiso['fecha_hora_fin'] ?>" readonly>
+                            <label for="detalleFechaFin" class="form-label">Hasta</label>
+                            <input type="text" id="detalleFechaFin" class="form-control" value="<?= esc($detallePermiso['fecha_hora_fin']) ?>" readonly>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="detalleSupervisor" class="form-label">Supervisor</label>
+                            <input type="text" id="detalleSupervisor" class="form-control" value="<?= esc($detallePermiso['supervisor']) ?>" readonly>
                         </div>
 
                         <div class="col-md-12">
                             <label for="detalleMotivo" class="form-label">Motivo</label>
-                            <input type="text" id="detalleMotivo" class="form-control" value="<?= $detallePermiso['motivo'] ?>" readonly>
+                            <input type="text" id="detalleMotivo" class="form-control" value="<?= esc($detallePermiso['motivo']) ?>" readonly>
                         </div>
                     </div>
                 </div>
             <?php endif; ?>
+
+
         </div>
     </main>

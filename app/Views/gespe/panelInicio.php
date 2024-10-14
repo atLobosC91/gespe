@@ -52,9 +52,9 @@
                             <div class="col-md-12">
                                 <h4 class="font-weight-light my-4">Bienvenido(a): <?= esc($usuario['nombres']) ?> <?= esc($usuario['apellidos']) ?></h4>
                             </div>
-                            
+
                         </div>
-                        
+
                         <div class="col-md-4">
                             <div class="form-floating mb-3 mb-md-0">
                                 <input class="form-control" id="inputRol" type="text" value="<?= esc($rol == 2 ? 'Administrador' : ($rol == 3 ? 'Supervisor' : ($rol == 4 ? 'Operativo' : 'Gerente'))) ?>" readonly disabled />
@@ -78,16 +78,13 @@
 
                         <div class="col-md-12">
                             <div class="form-floating mb-3">
-                                <textarea class="form-control" id="inputDireccion" type="text" value="<?= esc($usuario['direccion']) ?>" disabled /></textarea>
+                                <input class="form-control" id="inputDireccion" type="text" value="<?= esc($usuario['direccion']) ?>" disabled />
                                 <label for="inputDireccion">Dirección:</label>
                             </div>
                         </div>
-
 
                     </div>
                 </form>
             </div>
         </div>
     </main>
-</div>
-</div>

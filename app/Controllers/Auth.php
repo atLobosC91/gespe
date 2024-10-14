@@ -26,8 +26,8 @@ class Auth extends BaseController
 
         // Validar si existe el usuario
         if ($userData) {
-            // Verificar la contraseña
-            if ($userData['password'] == $password) {
+            // Verificar la contraseña usando password_verify para comparar el hash
+            if (password_verify($password, $userData['password'])) {
                 // Guardar los datos de usuario en la sesión
                 $session->set('id_usuario', $userData['id_usuario']);
                 $session->set('usuario', $userData['usuario']);
@@ -46,6 +46,7 @@ class Auth extends BaseController
             return redirect()->to('/login');
         }
     }
+
 
     public function logout()
     {

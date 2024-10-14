@@ -10,40 +10,66 @@
             </a>
             <!-- Formulario para crear una nueva solicitud -->
             <div class="card card-body" style="margin: 20px; padding: 20px">
+
+
+                <?php if (session()->getFlashdata('error')): ?>
+                    <div class="alert alert-danger">
+                        <?= session()->getFlashdata('error') ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (session()->getFlashdata('success')): ?>
+                    <div class="alert alert-success">
+                        <?= session()->getFlashdata('success') ?>
+                    </div>
+                <?php endif; ?>
+
+
+
                 <form action="<?= site_url('gespe/solicitud/crearSolicitud') ?>" method="post">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="tipoPermiso" class="form-label">Tipo de Permiso</label>
-                            <select class="form-control" id="tipoPermiso" name="id_permiso">
-                                <option value="">Seleccione un tipo de permiso</option>
-                                <?php foreach ($tiposPermiso as $permiso) : ?>
-                                    <option value="<?= $permiso['id_permiso'] ?>"><?= $permiso['descripcion'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                            <div class="form-floating">
+                                <select class="form-control" id="tipoPermiso" name="id_permiso">
+                                    <option value="">Seleccione un tipo de permiso</option>
+                                    <?php foreach ($tiposPermiso as $permiso) : ?>
+                                        <option value="<?= $permiso['id_permiso'] ?>"><?= $permiso['descripcion'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <label for="tipoPermiso">Tipo de Permiso</label>
+                            </div>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="" class="form-label">Derivar a:</label>
-                            <select class="form-control" id="" name="">
-                                <option value="">Seleccione a quién derivar solicitud</option>
-                            </select>
+                            <div class="form-floating">
+                                <select class="form-control" id="inputSupervisor" name="id_supervisor" required>
+                                    <option value="">Seleccione a quién derivar solicitud</option>
+                                    <?php foreach ($supervisores as $supervisor): ?>
+                                        <option value="<?= esc($supervisor['id_usuario']) ?>">
+                                            <?= esc($supervisor['nombres']) ?> <?= esc($supervisor['apellidos']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <label for="inputSupervisor">Derivar a:</label>
+                            </div>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="fechaInicio" class="form-label">Desde (Ejemplo: 01-01-2024 08:00)</label>
-                            <input type="datetime-local" id="fechaInicio" class="form-control" name="fecha_hora_inicio" required>
+                            <label for="fecha_hora_inicio" class="form-label">Desde</label>
+                            <input type="datetime-local" id="fecha_hora_inicio" name="fecha_hora_inicio" class="form-control" value="<?= set_value('fecha_hora_inicio') ?>">
                         </div>
 
                         <div class="col-md-6">
-                            <label for="fechaFin" class="form-label">Hasta (Ejemplo: 01-01-2024 18:00)</label>
-                            <input type="datetime-local" id="fechaFin" class="form-control" name="fecha_hora_fin" required>
+                            <label for="fecha_hora_fin" class="form-label">Hasta</label>
+                            <input type="datetime-local" id="fecha_hora_fin" name="fecha_hora_fin" class="form-control" value="<?= set_value('fecha_hora_fin') ?>">
                         </div>
 
-                        
 
                         <div class="col-md-12">
-                            <label for="motivo" class="form-label">Motivo</label>
-                            <textarea id="motivo" class="form-control" name="motivo" rows="3" required></textarea>
+                            <div class="form-floating">
+                                <textarea id="motivo" class="form-control" name="motivo" rows="3" required></textarea>
+                                <label for="motivo">Motivo</label>
+                            </div>
                         </div>
 
                         <div class="col-md-12 text-right">

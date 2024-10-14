@@ -46,7 +46,7 @@ $rol = isset($usuario['id_rol']) ? $usuario['id_rol'] : null;  // Validar que $u
             </li>
         </ul>
     </nav>
-<br>
+    <br>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -57,7 +57,7 @@ $rol = isset($usuario['id_rol']) ? $usuario['id_rol'] : null;  // Validar que $u
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-house-chimney-window"></i></div>
                             Panel de Inicio
                         </a>
-                        
+
                         <div class="sb-sidenav-menu-heading">Administración</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePermisos"
                             aria-expanded="false" aria-controls="collapsePermisos">
@@ -84,18 +84,18 @@ $rol = isset($usuario['id_rol']) ? $usuario['id_rol'] : null;  // Validar que $u
                             </a>
                             <div class="collapse" id="collapseUsuarios" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="">Nómina de Usuarios</a>
-                                    <a class="nav-link" href="">Nuevo Usuario</a>
+                                    <a class="nav-link" href="<?= site_url('gespe/usuarios/nomina'); ?>">Nómina de Usuarios</a>
+                                    <a class="nav-link" href="<?= site_url('gespe/usuarios/nuevoUsuario'); ?>">Nuevo Usuario</a>
                                 </nav>
                             </div>
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="<?= site_url('gespe/solicitud/solicitudesDerivadas'); ?>">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
                                 Solicitudes Derivadas
                             </a>
 
                         <?php elseif ($rol == 3): // Supervisor 
                         ?>
-                            <a class="nav-link" href="/dashboard">
+                            <a class="nav-link" href="<?= site_url('gespe/solicitud/solicitudesDerivadas'); ?>">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
                                 Solicitudes Derivadas
                             </a>

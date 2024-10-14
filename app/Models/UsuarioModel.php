@@ -15,6 +15,9 @@ class UsuarioModel extends Model
         'apellidos',
         'correo',
         'telefono',
+        'direccion',
+        'fecha_creacion',
+        'fecha_modificacion',
         'id_rol',
         'activo'
     ];
