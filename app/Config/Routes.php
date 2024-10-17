@@ -35,5 +35,21 @@ $routes->post('gespe/perfil/actualizarPerfil', 'SolicitudController::actualizarP
 
 
 $routes->get('gespe/solicitud/solicitudesDerivadas', 'SolicitudController::solicitudesDerivadas');
-$routes->get('gespe/solicitud/aprobarSolicitud/(:num)', 'SolicitudController::aprobarSolicitud/$1');
-$routes->get('gespe/solicitud/rechazarSolicitud/(:num)', 'SolicitudController::rechazarSolicitud/$1');
+$routes->get('solicitud/aprobar/(:num)', 'SolicitudController::aprobarSolicitud/$1');
+$routes->get('solicitud/rechazar/(:num)', 'SolicitudController::rechazarSolicitud/$1');
+
+
+$routes->get('gespe/solicitud/detalles/(:num)', 'SolicitudController::obtenerDetallesPermiso/$1');
+$routes->get('gespe/solicitud/detalleSolicitudesDerivada/(:num)', 'SolicitudController::obtenerDetalleSolicitudDerivada/$1');
+
+
+$routes->get('gespe/usuarios/nomina', 'UsuarioController::nomina');
+$routes->get('gespe/usuarios/nuevoUsuario', 'UsuarioController::nuevoUsuario');
+$routes->post('gespe/usuarios/crearUsuario', 'UsuarioController::crearUsuario');
+$routes->get('gespe/usuarios/detalleUsuario/(:num)', 'UsuarioController::detalleUsuario/$1');
+$routes->post('gespe/usuarios/actualizarUsuario/(:num)', 'UsuarioController::actualizar/$1');
+
+$routes->get('gespe/kpi/kpi', 'KPIController::index');
+
+$routes->get('gespe/solicitud/derivarSolicitud/(:num)', 'SolicitudController::derivarSolicitud/$1');
+$routes->post('gespe/solicitud/procesarDerivacion', 'SolicitudController::procesarDerivacion');

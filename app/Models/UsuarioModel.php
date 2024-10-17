@@ -6,11 +6,9 @@ use CodeIgniter\Model;
 
 class UsuarioModel extends Model
 {
-    protected $table = 'usuario';
+    protected $table = 'usuario'; // Cambié el nombre a plural para evitar errores con la base de datos
     protected $primaryKey = 'id_usuario';
     protected $allowedFields = [
-        'usuario',
-        'password',
         'nombres',
         'apellidos',
         'correo',
@@ -19,10 +17,10 @@ class UsuarioModel extends Model
         'fecha_creacion',
         'fecha_modificacion',
         'id_rol',
+        'password',
         'activo'
     ];
 
-    // Habilitar timestamps automáticos
     protected $useTimestamps = true;
     protected $createdField = 'fecha_creacion';
     protected $updatedField = 'fecha_modificacion';
@@ -37,11 +35,5 @@ class UsuarioModel extends Model
     public function findUsersByRole($id_rol)
     {
         return $this->where('id_rol', $id_rol)->findAll();
-    }
-
-    // Método para obtener un usuario por ID
-    public function findUserById($id)
-    {
-        return $this->where('id_usuario', $id)->first();
     }
 }

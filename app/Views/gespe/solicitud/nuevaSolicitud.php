@@ -1,30 +1,21 @@
 <div id="layoutSidenav_content">
     <main>
-        <div class="container-fluid px-4">
-            <br>
-            <div class="card-header">
-                <h3>Nueva Solicitud de Permiso</h3>
-            </div>
-            <a href="<?= site_url('gespe/solicitud/misSolicitudes') ?>" class="btn btn-primary" style="margin-top: 20px; margin-left: 20px;">
-                <i class="fa-solid fa-arrow-left"></i> Volver a Mis Solicitudes
-            </a>
-            <!-- Formulario para crear una nueva solicitud -->
-            <div class="card card-body" style="margin: 20px; padding: 20px">
-
+        <div class="container mt-4">
+            <div class="card shadow-sm p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0">Nueva Solicitud de Permiso</h3>
+                    <a href="<?= site_url('gespe/solicitud/misSolicitudes') ?>" class="btn btn-primary">
+                        <i class="fa-solid fa-arrow-left"></i> Volver a Mis Solicitudes
+                    </a>
+                </div>
 
                 <?php if (session()->getFlashdata('error')): ?>
-                    <div class="alert alert-danger">
-                        <?= session()->getFlashdata('error') ?>
-                    </div>
+                    <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
                 <?php endif; ?>
 
                 <?php if (session()->getFlashdata('success')): ?>
-                    <div class="alert alert-success">
-                        <?= session()->getFlashdata('success') ?>
-                    </div>
+                    <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
                 <?php endif; ?>
-
-
 
                 <form action="<?= site_url('gespe/solicitud/crearSolicitud') ?>" method="post">
                     <div class="row g-3">
@@ -55,15 +46,18 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="fecha_hora_inicio" class="form-label">Desde</label>
-                            <input type="datetime-local" id="fecha_hora_inicio" name="fecha_hora_inicio" class="form-control" value="<?= set_value('fecha_hora_inicio') ?>">
+                            <div class="form-floating">
+                                <input type="datetime-local" id="fecha_hora_inicio" name="fecha_hora_inicio" class="form-control" value="<?= set_value('fecha_hora_inicio') ?>" required>
+                                <label for="fecha_hora_inicio">Desde</label>
+                            </div>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="fecha_hora_fin" class="form-label">Hasta</label>
-                            <input type="datetime-local" id="fecha_hora_fin" name="fecha_hora_fin" class="form-control" value="<?= set_value('fecha_hora_fin') ?>">
+                            <div class="form-floating">
+                                <input type="datetime-local" id="fecha_hora_fin" name="fecha_hora_fin" class="form-control" value="<?= set_value('fecha_hora_fin') ?>" required>
+                                <label for="fecha_hora_fin">Hasta</label>
+                            </div>
                         </div>
-
 
                         <div class="col-md-12">
                             <div class="form-floating">
@@ -72,7 +66,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12 text-right">
+                        <div class="col-md-12 text-end">
                             <button type="submit" class="btn btn-success">
                                 <i class="fa-solid fa-paper-plane"></i> Enviar Solicitud
                             </button>
@@ -81,4 +75,5 @@
                 </form>
             </div>
         </div>
+
     </main>

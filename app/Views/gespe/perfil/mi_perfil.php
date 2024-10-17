@@ -96,12 +96,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input class="form-control" id="inputArea" type="text" value="Supervisor" readonly />
-                                        <label for="inputArea">Supervisor:</label>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>

@@ -1,22 +1,12 @@
-<!-- kpi.php -->
-<div class="container">
-    <h1>Dashboard de KPIs</h1>
-    <div class="row">
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-primary text-white mb-4">
-                <div class="card-body">Total Proyectos</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="small text-white"><?= esc($total_proyectos) ?></div>
-                </div>
+<br><br>
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <div class="card-header">
+                <h3>Dashboard KPI</h3>
+            </div>
+            <div class=" kpi-container">
+                <iframe title="Insid" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=844167ea-f5b1-42de-aa24-483aa2e0dcf5&autoAuth=true&ctid=21d2b5fa-1fe6-4b53-87d7-5303675b251f" frameborder="0" allowFullScreen="true"></iframe>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-warning text-white mb-4">
-                <div class="card-body">Permisos Aprobados</div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="small text-white"><?= esc($permisos_aprobados) ?></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    </main>
