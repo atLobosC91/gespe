@@ -1,69 +1,75 @@
-<br>
 <div id="layoutSidenav_content">
     <main>
-        <div class="container-fluid px-4">
-            <div class="card-header">
-                <h3>Crear Nuevo Usuario</h3>
-            </div>
-
-            <div class="card card-body" style="margin: 20px; padding: 20px">
-                <?php if (session()->has('errors')): ?>
-                    <div class="alert alert-danger">
-                        <ul>
-                            <?php foreach (session('errors') as $error): ?>
-                                <li><?= esc($error) ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
-
-                <form action="<?= site_url('gespe/usuarios/crearUsuario') ?>" method="post">
-                    <?= csrf_field() ?>
-
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="nombres" class="form-label">Nombres</label>
-                            <input type="text" name="nombres" id="nombres" class="form-control" value="<?= old('nombres') ?>" required>
+        <div class="container mt-4">
+            <div class="card p-4 shadow-sm">
+                <h2 class="text-center">Nueva Solicitud de Permiso</h2>
+                <form action="<?= site_url('gespe/solicitud/crearSolicitud') ?>" method="post">
+                    <div class="row mt-4">
+                        <!-- Tipo de Permiso -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <select class="form-select" id="inputTipoPermiso" name="id_permiso" required>
+                                    <option value="" disabled selected>Selecciona un tipo de permiso</option>
+                                    <?php foreach ($tiposPermiso as $permiso): ?>
+                                        <option value="<?= esc($permiso['id_permiso']) ?>"><?= esc($permiso['descripcion']) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <label for="inputTipoPermiso">Tipo de Permiso</label>
+                            </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <label for="apellidos" class="form-label">Apellidos</label>
-                            <input type="text" name="apellidos" id="apellidos" class="form-control" value="<?= old('apellidos') ?>" required>
+                        <!-- Fecha y Hora de Inicio -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <input type="datetime-local" class="form-control" id="inputFechaInicio" name="fecha_hora_inicio" required>
+                                <label for="inputFechaInicio">Fecha y Hora de Inicio</label>
+                            </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <label for="correo" class="form-label">Correo</label>
-                            <input type="email" name="correo" id="correo" class="form-control" value="<?= old('correo') ?>" required>
+                        <!-- Fecha y Hora de Término -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <input type="datetime-local" class="form-control" id="inputFechaFin" name="fecha_hora_fin" required>
+                                <label for="inputFechaFin">Fecha y Hora de Término</label>
+                            </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <label for="telefono" class="form-label">Teléfono</label>
-                            <input type="text" name="telefono" id="telefono" class="form-control" value="<?= old('telefono') ?>" required>
+                        <!-- Motivo del Permiso -->
+                        <div class="col-md-12 mb-3">
+                            <div class="form-floating">
+                                <textarea class="form-control" id="inputMotivo" name="motivo" style="height: 100px" required></textarea>
+                                <label for="inputMotivo">Motivo del Permiso</label>
+                            </div>
                         </div>
 
-                        <div class="col-md-12">
-                            <label for="direccion" class="form-label">Dirección</label>
-                            <input type="text" name="direccion" id="direccion" class="form-control" value="<?= old('direccion') ?>" required>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="rol" class="form-label">Rol</label>
-                            <select name="rol" id="rol" class="form-select" required>
-                                <option value="">Seleccionar Rol</option>
-                                <option value="1">Gerente</option>
-                                <option value="2">Administrador</option>
-                                <option value="3">Supervisor</option>
-                                <option value="4">Operativo</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" name="password" id="password" class="form-control" required>
+                        <!-- Selección de Supervisor -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <select class="form-select" id="inputSupervisor" name="id_supervisor" required>
+                                    <option value="" disabled selected>Selecciona un supervisor</option>
+                                    <?php foreach ($supervisores as $supervisor): ?>
+                                        <option value="<?= esc($supervisor['id_usuario']) ?>"><?= esc($supervisor['nombres'] . ' ' . $supervisor['apellidos']) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <label for="inputSupervisor">Supervisor</label>
+                            </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-4">Crear Usuario</button>
+                    <!-- Botones de acción -->
+                    <div class="row mt-4 justify-content-center">
+                        <div class="col-md-3 d-grid">
+                            <button class="btn btn-primary btn-lg w-100" type="submit">
+                                <i class="fas fa-save"></i> Guardar Solicitud
+                            </button>
+                        </div>
+                        <div class="col-md-3 d-grid">
+                            <a class="btn btn-danger btn-lg w-100" href="<?= site_url('gespe/solicitud/misSolicitudes') ?>">
+                                <i class="fas fa-times"></i> Cancelar Solicitud
+                            </a>
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>

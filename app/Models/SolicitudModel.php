@@ -11,4 +11,5 @@ class SolicitudModel extends Model
 
     // Los campos que deseas consultar
     protected $allowedFields = ['id_usuario', 'id_permiso', 'supervisor_id', 'id_estado', 'administrador_id', 'fecha_hora_inicio', 'fecha_hora_fin', 'motivo', 'estado_solicitud', 'archivo_adjunto', 'fecha_solicitud'];
+    
 }

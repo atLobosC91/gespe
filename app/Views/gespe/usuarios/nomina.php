@@ -4,7 +4,7 @@
         <div class="container mt-4">
             <div class="card shadow-sm p-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="mb-0">Nómina de Usuarios</h3>
+                    <h2 class="mb-0">Nómina de Usuarios</h2>
                     <a href="<?= site_url('gespe/usuarios/nuevoUsuario') ?>" class="btn btn-primary">
                         <i class="fa fa-plus"></i> Añadir Nuevo Usuario
                     </a>
@@ -32,8 +32,13 @@
                                         <td><?= esc($usuario['telefono']) ?></td>
                                         <td><?= esc($usuario['id_rol'] == 1 ? 'Gerente' : ($usuario['id_rol'] == 2 ? 'Administrador' : 'Supervisor')) ?></td>
                                         <td class="text-center">
-                                            <a href="<?= site_url('gespe/usuarios/detalleUsuario/' . $usuario['id_usuario']) ?>" class="btn btn-outline-primary btn-sm">
-                                                <i class="fa fa-eye"></i>
+                                            <!-- Botón de Modificar -->
+                                            <a href="<?= site_url('gespe/usuarios/modificarUsuario/' . $usuario['id_usuario']) ?>" class="btn btn-outline-warning btn-sm">
+                                                <i class="fa fa-edit"></i> Modificar
+                                            </a>
+                                            <!-- Botón de Eliminar -->
+                                            <a href="<?= site_url('gespe/usuarios/eliminarUsuario/' . $usuario['id_usuario']) ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este usuario?');">
+                                                <i class="fa fa-trash"></i> Eliminar
                                             </a>
                                         </td>
                                     </tr>
@@ -44,6 +49,7 @@
                                 </tr>
                             <?php endif; ?>
                         </tbody>
+
                     </table>
 
                     <div class="pagination justify-content-center">

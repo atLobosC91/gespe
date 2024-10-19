@@ -114,16 +114,10 @@ class UsuarioController extends BaseController
         return redirect()->to('gespe/usuarios/nomina')->with('success', 'Usuario creado exitosamente.');
     }
 
-    public function editar($id)
-    {
-        $data['usuario'] = $this->usuariosModel->find($id);
 
-        return view('usuarios_editar', $data);
-    }
 
     public function actualizar($id)
     {
-        // Validar los datos del formulario
         $validation = \Config\Services::validation();
 
         $validation->setRules([
@@ -132,28 +126,34 @@ class UsuarioController extends BaseController
             'correo' => 'required|valid_email',
             'telefono' => 'required|regex_match[/^569[0-9]{8}$/]',
             'rol' => 'required',
+            'estado' => 'required'
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
-        // Si la validación es correcta, actualizamos los datos del usuario
+        // Si el usuario decide cambiar la contraseña
+        $password = $this->request->getPost('password');
+        if (!empty($password)) {
+            $data['password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
+
         $data = [
             'nombres' => $this->request->getPost('nombres'),
             'apellidos' => $this->request->getPost('apellidos'),
             'correo' => $this->request->getPost('correo'),
             'telefono' => $this->request->getPost('telefono'),
             'id_rol' => $this->request->getPost('rol'),
+            'activo' => $this->request->getPost('estado')
         ];
 
-        // Actualizar los datos en la base de datos
+        // Actualizamos los datos en la base de datos
         $this->usuariosModel->update($id, $data);
 
-        // Redirigir con un mensaje de éxito
+        // Redirigir con mensaje de éxito
         return redirect()->to('gespe/usuarios/nomina')->with('success', 'Usuario actualizado exitosamente.');
     }
-
 
     public function eliminar($id)
     {
@@ -164,22 +164,59 @@ class UsuarioController extends BaseController
 
     public function detalleUsuario($id)
     {
-        // Obtener los datos del usuario logueado
-        $userData = $this->getUserData(); // El rol del usuario logueado
+        // Obtener los datos del usuario logueado (sin sobrescribir la información del usuario logueado)
+        $userData = $this->getUserData();
 
         // Buscar el usuario por su ID
-        $usuario = $this->usuariosModel->find($id);
+        $usuarioVisto = $this->usuariosModel->find($id);
 
         // Si el usuario no existe, redirigir con un mensaje de error
-        if (!$usuario) {
+        if (!$usuarioVisto) {
             return redirect()->to('gespe/usuarios/nomina')->with('error', 'Usuario no encontrado.');
         }
 
         // Pasar los datos del usuario que se está viendo y del usuario logueado a la vista
-        $data = array_merge($userData, ['usuario' => $usuario]);
+        $data = array_merge($userData, ['usuarioVisto' => $usuarioVisto]);
 
         echo view('gespe/incluir/header_app', $data);
         echo view('gespe/usuarios/detalleUsuario', $data);
         echo view('gespe/incluir/footer_app', $data);
+    }
+
+    public function modificarUsuario($id)
+    {
+        $userData = $this->getUserData();
+
+        // Verifica si el usuario tiene permisos adecuados
+        if ($userData['rol'] != 2) {
+            return redirect()->back()->with('error', 'No tienes permiso para realizar esta acción.');
+        }
+
+        $usuarioModel = new UsuarioModel();
+        $usuario = $usuarioModel->find($id);
+
+        if (!$usuario) {
+            return redirect()->to('gespe/usuarios/nomina')->with('error', 'Usuario no encontrado.');
+        }
+
+        $data = array_merge($userData, ['usuarioVisto' => $usuario]);
+
+        echo view('gespe/incluir/header_app', $data);
+        echo view('gespe/usuarios/modificarUsuario', $data);
+        echo view('gespe/incluir/footer_app', $data);
+    }
+
+    public function eliminarUsuario($id)
+    {
+        $userData = $this->getUserData();
+
+        // Verifica si el usuario tiene permisos adecuados
+        if ($userData['rol'] != 2) {
+            return redirect()->back()->with('error', 'No tienes permiso para realizar esta acción.');
+        }
+
+        $this->usuariosModel->delete($id);
+
+        return redirect()->to('gespe/usuarios/nomina')->with('success', 'Usuario eliminado exitosamente.');
     }
 }
