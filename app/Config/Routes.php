@@ -47,6 +47,7 @@ $routes->get('gespe/solicitud/misSolicitudes', 'PermisoController::misSolicitude
 $routes->get('gespe/solicitud/nuevaSolicitud', 'PermisoController::nuevaSolicitud');
 $routes->post('gespe/solicitud/crearSolicitud', 'PermisoController::crearSolicitud');
 $routes->get('gespe/solicitud/detalles/(:num)', 'PermisoController::obtenerDetallesPermiso/$1');
+$routes->post('gespe/solicitud/eliminarSolicitud/(:num)', 'PermisoController::eliminarSolicitud/$1');
 
 $routes->get('gespe/solicitud/descargarPDF/(:num)', 'PermisoController::descargarPDF/$1');
 

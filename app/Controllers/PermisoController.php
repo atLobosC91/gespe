@@ -91,20 +91,23 @@ class PermisoController extends BaseController
         $permisoModel = new PermisoModel();
         $usuarioModel = new UsuarioModel();
 
-        $supervisores = $usuarioModel->findUsersByRole(3);  // Supervisores
-        if (empty($supervisores)) {
-            $supervisores = $usuarioModel->findUsersByRole(2);  // Administradores
-        }
+        // Obtener supervisores (id_rol = 3) y administradores (id_rol = 2)
+        $supervisores = $usuarioModel->where('id_rol', 3)->findAll();  // Supervisores
+        $administradores = $usuarioModel->where('id_rol', 2)->findAll();  // Administradores
 
         $data = array_merge($userData, [
             'tiposPermiso' => $permisoModel->findAll(),
-            'supervisores' => $supervisores
+            'supervisores' => $supervisores,
+            'administradores' => $administradores,
+            'rol' => $userData['rol'] // Pasar el rol a la vista
         ]);
 
         echo view('gespe/incluir/header_app', $data);
         echo view('gespe/solicitud/nuevaSolicitud', $data);
         echo view('gespe/incluir/footer_app', $data);
     }
+
+
 
     public function crearSolicitud()
     {
@@ -189,52 +192,66 @@ class PermisoController extends BaseController
     }
 
 
-   
+
     public function descargarPDF($id_solicitud)
     {
         $solicitudModel = new SolicitudModel();
         $permisoModel = new PermisoModel();
         $estadoModel = new EstadoSolicitudModel();
         $usuarioModel = new UsuarioModel();
-    
+
         // Obtener el detalle del permiso
         $detallePermiso = $solicitudModel->find($id_solicitud);
-    
+
         if ($detallePermiso) {
             $detallePermiso['tipo_permiso'] = $permisoModel->find($detallePermiso['id_permiso'])['descripcion'];
             $detallePermiso['estado'] = $estadoModel->find($detallePermiso['estado_solicitud'])['estado'];
             $supervisor = $usuarioModel->find($detallePermiso['supervisor_id']);
             $detallePermiso['supervisor'] = $supervisor ? $supervisor['nombres'] . ' ' . $supervisor['apellidos'] : 'Sin Supervisor';
-    
+
             // Solo permitir descarga si está aprobado
             if ($detallePermiso['estado'] != 'Aprobado') {
                 return redirect()->back()->with('error', 'Solo se pueden descargar permisos aprobados.');
             }
-    
+
             // Crear PDF usando Dompdf
             $options = new Options();
             $options->set('isRemoteEnabled', true);
             $dompdf = new Dompdf($options);
-    
+
             $data = [
                 'detallePermiso' => $detallePermiso
             ];
-    
+
             // Generar la vista del PDF
             $html = view('gespe/solicitud/pdfSolicitud', $data);
             $dompdf->loadHtml($html);
-    
+
             // Configurar el tamaño y la orientación
             $dompdf->setPaper('A4', 'portrait');
-    
+
             // Renderizar el PDF
             $dompdf->render();
-    
+
             // Enviar el PDF al navegador
             $dompdf->stream("solicitud_" . $detallePermiso['id_solicitud'] . ".pdf", array("Attachment" => 1));
         } else {
             return redirect()->back()->with('error', 'Solicitud no encontrada.');
         }
     }
-    
+
+    public function eliminarSolicitud($id_solicitud)
+    {
+        $solicitudModel = new SolicitudModel();
+
+        // Buscar la solicitud y eliminarla
+        $solicitud = $solicitudModel->find($id_solicitud);
+
+        if ($solicitud) {
+            $solicitudModel->delete($id_solicitud);
+            return redirect()->to('gespe/solicitud/misSolicitudes')->with('success', 'Solicitud eliminada correctamente.');
+        } else {
+            return redirect()->back()->with('error', 'No se encontró la solicitud.');
+        }
+    }
 }

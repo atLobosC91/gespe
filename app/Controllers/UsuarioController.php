@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\UsuarioModel;
+use App\Models\AreaModel;
+use App\Models\RolModel;
 
 class UsuarioController extends BaseController
 {
@@ -69,12 +71,24 @@ class UsuarioController extends BaseController
         // Obtener los datos del usuario logueado
         $userData = $this->getUserData();
 
+        // Obtener los roles y las áreas de la base de datos
+        $rolModel = new RolModel();  // Asegúrate de tener un modelo para la tabla de roles
+        $areaModel = new AreaModel();  // Asegúrate de tener un modelo para la tabla de áreas
+
+        $roles = $rolModel->findAll();  // Obtener todos los roles
+        $areas = $areaModel->findAll();  // Obtener todas las áreas
 
         // Pasar los datos a la vista
-        echo view('gespe/incluir/header_app', $userData);
-        echo view('gespe/usuarios/nuevoUsuario', $userData);
+        $data = array_merge($userData, [
+            'roles' => $roles,
+            'areas' => $areas
+        ]);
+
+        echo view('gespe/incluir/header_app', $data);
+        echo view('gespe/usuarios/nuevoUsuario', $data);
         echo view('gespe/incluir/footer_app');
     }
+
 
     public function crearUsuario()
     {
@@ -100,13 +114,14 @@ class UsuarioController extends BaseController
         $data = [
             'nombres' => $this->request->getPost('nombres'),
             'apellidos' => $this->request->getPost('apellidos'),
+            'usuario' => $this->request->getPost('usuario'),
             'correo' => $this->request->getPost('correo'),
             'telefono' => $this->request->getPost('telefono'),
             'id_rol' => $this->request->getPost('rol'),
+            'id_area' => $this->request->getPost('id'),  // Asegúrate de que estás enviando el área
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
         ];
 
-        // Guardar los datos del nuevo usuario en la base de datos
         $this->usuariosModel->insert($data);
 
 

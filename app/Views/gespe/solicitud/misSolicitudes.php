@@ -13,11 +13,11 @@
                         <thead class="bg-primary text-white">
                             <tr>
                                 <th>ID</th>
-                                <th>Tipo Permiso</th>
+                                <th>Permiso</th>
                                 <th>Desde</th>
                                 <th>Hasta</th>
                                 <th>Estado</th>
-                                <th>Supervisor</th>
+                                <th>Derivado a</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -51,9 +51,17 @@
 
                                         <td><?= esc($permiso['supervisor']) ?></td>
                                         <td>
+                                            <!-- Botón Ver Detalle -->
                                             <a href="<?= site_url('gespe/solicitud/detalles/' . $permiso['id_solicitud']) ?>" class="btn btn-info btn-sm">
                                                 <i class="fas fa-eye"></i>
                                             </a>
+                                            <!-- Botón Eliminar -->
+                                            <form action="<?= site_url('gespe/solicitud/eliminarSolicitud/' . $permiso['id_solicitud']) ?>" method="post" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar esta solicitud?');">
+                                                <?= csrf_field() ?>
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

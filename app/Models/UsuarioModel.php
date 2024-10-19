@@ -9,6 +9,7 @@ class UsuarioModel extends Model
     protected $table = 'usuario'; // Cambié el nombre a plural para evitar errores con la base de datos
     protected $primaryKey = 'id_usuario';
     protected $allowedFields = [
+        'usuario',
         'nombres',
         'apellidos',
         'correo',
