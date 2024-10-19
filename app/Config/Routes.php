@@ -42,7 +42,7 @@ $routes->post('gespe/area/actualizar/(:num)', 'AreaController::actualizar/$1');
 $routes->get('gespe/area/eliminar/(:num)', 'AreaController::eliminar/$1');
 
 
-// Rutas de Solicitudes
+// Rutas de Solicitudes de Permisos
 $routes->get('gespe/solicitud/misSolicitudes', 'PermisoController::misSolicitudes');
 $routes->get('gespe/solicitud/nuevaSolicitud', 'PermisoController::nuevaSolicitud');
 $routes->post('gespe/solicitud/crearSolicitud', 'PermisoController::crearSolicitud');
@@ -51,7 +51,15 @@ $routes->post('gespe/solicitud/eliminarSolicitud/(:num)', 'PermisoController::el
 
 $routes->get('gespe/solicitud/descargarPDF/(:num)', 'PermisoController::descargarPDF/$1');
 
+//Solicitudes Derivadas
+$routes->get('gespe/solicitudesDerivadas', 'PermisoController::solicitudesDerivadas');
+$routes->get('gespe/solicitudesDerivadas/detalleSolicitudDerivada/(:num)', 'PermisoController::obtenerDetalleSolicitudDerivada/$1');
+$routes->get('gespe/solicitudesDerivadas/derivarSolicitud/(:num)', 'PermisoController::derivarSolicitud/$1');
+$routes->post('gespe/solicitudesDerivadas/rechazarSolicitudDerivada/(:num)', 'PermisoController::rechazarSolicitudDerivada/$1');
+$routes->post('gespe/solicitudesDerivadas/derivarSolicitud/(:num)', 'PermisoController::derivarSolicitud/$1');
+$routes->post('gespe/solicitudesDerivadas/aprobarSolicitud/(:num)', 'PermisoController::aprobarSolicitud/$1');
 
+$routes->get('gespe/solicitudesDerivadas/pdfSolicitudDerivada/(:num)', 'PermisoController::derivadoPDF/$1');
 
 // Rutas de KPIs
 $routes->get('gespe/kpi/kpi', 'KPIController::index');

@@ -43,7 +43,7 @@
                         </p>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label><strong>Supervisor:</strong></label>
+                        <label><strong>Encargado:</strong></label>
                         <p><?= esc($detallePermiso['supervisor']) ?></p>
                     </div>
                     <div class="col-md-12 mb-3">

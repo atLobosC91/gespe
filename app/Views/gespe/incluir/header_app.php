@@ -1,5 +1,6 @@
 <?php
 $rol = isset($usuario['id_rol']) ? $usuario['id_rol'] : null;
+echo "Rol del usuario: " . $rol;
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +66,7 @@ $rol = isset($usuario['id_rol']) ? $usuario['id_rol'] : null;
                         ?>
                             <div class="sb-sidenav-menu-heading">Administración</div>
 
-                            <a class="nav-link" href="<?= site_url('gespe/solicitud/solicitudesDerivadas'); ?>">
+                            <a class="nav-link" href="<?= site_url('gespe/solicitudesDerivadas'); ?>">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
                                 Solicitudes Derivadas
                             </a>
@@ -103,7 +104,7 @@ $rol = isset($usuario['id_rol']) ? $usuario['id_rol'] : null;
                         ?>
                             <div class="sb-sidenav-menu-heading">Administración</div>
 
-                            <a class="nav-link" href="<?= site_url('gespe/solicitud/solicitudesDerivadas'); ?>">
+                            <a class="nav-link" href="<?= site_url('gespe/solicitudesDerivadas'); ?>">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
                                 Solicitudes Derivadas
                             </a>

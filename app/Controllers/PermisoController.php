@@ -123,9 +123,17 @@ class PermisoController extends BaseController
             return redirect()->back()->withInput()->with('error', 'La fecha de fin no puede ser anterior a la fecha de inicio.');
         }
 
-        $supervisor_id = $this->request->getPost('id_supervisor');
-        if (empty($supervisor_id)) {
-            $supervisor_id = $this->getAdminDefault();
+        // Determinar si se ha seleccionado un supervisor o administrador
+        $tipo_responsable = $this->request->getPost('tipo_responsable');
+
+        if ($tipo_responsable === 'supervisor') {
+            $responsable_id = $this->request->getPost('supervisor_id');
+        } else {
+            $responsable_id = $this->request->getPost('administrador_id');
+        }
+
+        if (empty($responsable_id)) {
+            return redirect()->back()->with('error', 'Debe seleccionar un responsable para la solicitud.');
         }
 
         $data = [
@@ -134,8 +142,9 @@ class PermisoController extends BaseController
             'fecha_hora_inicio' => $fecha_hora_inicio,
             'fecha_hora_fin' => $fecha_hora_fin,
             'motivo' => $this->request->getPost('motivo'),
-            'supervisor_id' => $supervisor_id,
-            'estado_solicitud' => 1 // Estado pendiente
+            'supervisor_id' => ($tipo_responsable === 'supervisor') ? $responsable_id : null, // Guardar en `supervisor_id` solo si es supervisor
+            'administrador_id' => ($tipo_responsable === 'administrador') ? $responsable_id : null, // Guardar en `administrador_id` si es administrador
+            'estado_solicitud' => 1 // Estado en curso
         ];
 
         $solicitudModel = new SolicitudModel();
@@ -143,6 +152,7 @@ class PermisoController extends BaseController
 
         return redirect()->to('gespe/solicitud/misSolicitudes')->with('success', 'Solicitud creada correctamente.');
     }
+
 
     public function obtenerDetallesPermiso($id_solicitud)
     {
@@ -158,8 +168,12 @@ class PermisoController extends BaseController
         if ($detallePermiso) {
             $detallePermiso['tipo_permiso'] = $permisoModel->find($detallePermiso['id_permiso'])['descripcion'];
             $detallePermiso['estado'] = $estadoModel->find($detallePermiso['estado_solicitud'])['estado'];
+
+            // Verificación del supervisor
             $supervisor = $usuarioModel->find($detallePermiso['supervisor_id']);
-            $detallePermiso['supervisor'] = $supervisor ? $supervisor['nombres'] . ' ' . $supervisor['apellidos'] : 'Sin Supervisor';
+            $detallePermiso['supervisor'] = ($supervisor && isset($supervisor['nombres']) && isset($supervisor['apellidos']))
+                ? $supervisor['nombres'] . ' ' . $supervisor['apellidos']
+                : 'Sin Supervisor';
 
             // Verificar si fue derivada
             if (!empty($detallePermiso['administrador_id'])) {
@@ -182,6 +196,7 @@ class PermisoController extends BaseController
         echo view('gespe/solicitud/detalleSolicitud', $data);
         echo view('gespe/incluir/footer_app');
     }
+
 
 
     private function getAdminDefault()
@@ -253,5 +268,243 @@ class PermisoController extends BaseController
         } else {
             return redirect()->back()->with('error', 'No se encontró la solicitud.');
         }
+    }
+
+    public function solicitudesDerivadas()
+    {
+        $userData = $this->getUserData();
+        $id_usuario = $userData['usuario']['id_usuario'];
+        $rol = $userData['rol'];
+
+        $model = new SolicitudModel();
+        $permisoModel = new PermisoModel();
+        $usuarioModel = new UsuarioModel();
+
+        $search = $this->request->getGet('search');
+        $perPage = 5;
+
+        $solicitudes = [];
+
+        if ($rol == 2) { // Administrador
+            if ($search) {
+                $solicitudes = $model->like('tipo_permiso', $search)
+                    ->orLike('estado_solicitud', $search)
+                    ->where('administrador_id', $id_usuario)
+                    ->paginate($perPage);
+            } else {
+                $solicitudes = $model->where('administrador_id', $id_usuario)
+                    ->paginate($perPage);
+            }
+        } elseif ($rol == 3) { // Supervisor
+            if ($search) {
+                $solicitudes = $model->like('tipo_permiso', $search)
+                    ->orLike('estado_solicitud', $search)
+                    ->where('supervisor_id', $id_usuario)
+                    ->paginate($perPage);
+            } else {
+                $solicitudes = $model->where('supervisor_id', $id_usuario)
+                    ->paginate($perPage);
+            }
+        }
+
+        // Agregar información adicional (supervisor, administrador, solicitante)
+        foreach ($solicitudes as &$solicitud) {
+            $permiso = $permisoModel->find($solicitud['id_permiso']);
+            $solicitud['tipo_permiso'] = $permiso ? $permiso['descripcion'] : 'N/A';
+
+            // Obtener nombre del solicitante
+            $usuario = $usuarioModel->find($solicitud['id_usuario']);
+            $solicitud['solicitado_por'] = ($usuario && isset($usuario['nombres']) && isset($usuario['apellidos']))
+                ? $usuario['nombres'] . ' ' . $usuario['apellidos']
+                : 'Usuario no encontrado';
+
+            // Obtener nombre del supervisor
+            $supervisor = $usuarioModel->find($solicitud['supervisor_id']);
+            $solicitud['supervisor'] = ($supervisor && isset($supervisor['nombres']) && isset($supervisor['apellidos']))
+                ? $supervisor['nombres'] . ' ' . $supervisor['apellidos']
+                : 'Sin Supervisor';
+
+            // Obtener nombre del administrador si está derivada
+            $administrador = $usuarioModel->find($solicitud['administrador_id']);
+            $solicitud['administrador'] = ($administrador && isset($administrador['nombres']) && isset($administrador['apellidos']))
+                ? $administrador['nombres'] . ' ' . $administrador['apellidos']
+                : 'No Derivada';
+        }
+
+        $data['solicitudesDerivadas'] = $solicitudes;
+        $data['pager'] = $model->pager;
+        $data['search'] = $search;
+        $data = array_merge($userData, $data);
+
+        echo view('gespe/incluir/header_app', $data);
+        echo view('gespe/solicitudesDerivadas/solicitudesDerivadas', $data);
+        echo view('gespe/incluir/footer_app', $data);
+    }
+
+
+    public function obtenerDetalleSolicitudDerivada($id_solicitud)
+    {
+        $userData = $this->getUserData();
+
+        $solicitudModel = new SolicitudModel();
+        $permisoModel = new PermisoModel();
+        $estadoModel = new EstadoSolicitudModel();
+        $usuarioModel = new UsuarioModel();
+
+        // Obtener los detalles de la solicitud
+        $detallePermiso = $solicitudModel->find($id_solicitud);
+
+        if ($detallePermiso) {
+            // Obtener tipo de permiso, estado y el supervisor
+            $detallePermiso['tipo_permiso'] = $permisoModel->find($detallePermiso['id_permiso'])['descripcion'];
+            $detallePermiso['estado'] = $estadoModel->find($detallePermiso['estado_solicitud'])['estado'];
+
+            // Verificar y obtener el supervisor
+            $supervisor = $usuarioModel->find($detallePermiso['supervisor_id']);
+            $detallePermiso['supervisor'] = ($supervisor && isset($supervisor['nombres']) && isset($supervisor['apellidos']))
+                ? $supervisor['nombres'] . ' ' . $supervisor['apellidos']
+                : 'Sin Supervisor';
+
+            // Verificar y obtener el solicitante
+            $solicitante = $usuarioModel->find($detallePermiso['id_usuario']);
+            $detallePermiso['solicitado_por'] = ($solicitante && isset($solicitante['nombres']) && isset($solicitante['apellidos']))
+                ? $solicitante['nombres'] . ' ' . $solicitante['apellidos']
+                : 'Usuario no encontrado';
+        }
+
+        // Obtener los administradores a quienes se puede derivar (id_rol = 2)
+        $administradores = $usuarioModel->where('id_rol', 2)->findAll();
+
+        $data = array_merge($userData, [
+            'detallePermiso' => $detallePermiso,
+            'administradores' => $administradores,
+            'rol' => $userData['rol'], // Incluye el rol en los datos
+        ]);
+
+        echo view('gespe/incluir/header_app', $data);
+        echo view('gespe/solicitudesDerivadas/detalleSolicitudDerivada', $data);
+        echo view('gespe/incluir/footer_app');
+    }
+
+
+    public function derivarSolicitud($id_solicitud)
+    {
+        // Obtener el administrador seleccionado desde el formulario
+        $administrador_id = $this->request->getPost('administrador_id');
+
+        if (empty($administrador_id)) {
+            return redirect()->back()->with('error', 'Debe seleccionar un administrador para derivar.');
+        }
+
+        // Actualizar la solicitud con el administrador seleccionado y el estado a "Derivada"
+        $solicitudModel = new SolicitudModel();
+        $data = [
+            'administrador_id' => $administrador_id,
+            'estado_solicitud' => 4  // Cambiar el estado a "Derivada"
+        ];
+
+        $solicitudModel->update($id_solicitud, $data);
+
+        return redirect()->to('gespe/solicitudesDerivadas')->with('success', 'Solicitud derivada correctamente al administrador.');
+    }
+
+
+
+
+    public function rechazarSolicitudDerivada($id_solicitud)
+    {
+        $motivo = $this->request->getPost('motivo');
+
+        // Aquí actualizarías la base de datos para rechazar la solicitud y guardar el motivo.
+        return redirect()->back()->with('success', 'Solicitud rechazada con motivo: ' . $motivo);
+    }
+
+    public function aprobarSolicitud($id_solicitud)
+    {
+        $solicitudModel = new SolicitudModel();
+
+        // Actualizar el estado de la solicitud a "Aprobada"
+        $data = [
+            'estado_solicitud' => 2,  // 2 será el estado correspondiente a "Aprobada"
+            'aprobador_id' => session()->get('id_usuario'), // Guardar quién aprobó
+        ];
+
+        // Actualizar el registro en la base de datos
+        $solicitudModel->update($id_solicitud, $data);
+
+        return redirect()->to('gespe/solicitudesDerivadas')->with('success', 'Solicitud aprobada correctamente.');
+    }
+
+    public function derivadoPDF($id_solicitud)
+    {
+        // Obtener datos del usuario logueado
+        $userData = $this->getUserData();
+
+        // Verificar que el usuario sea supervisor o administrador
+        if ($userData['rol'] != 2 && $userData['rol'] != 3) {
+            return redirect()->back()->with('error', 'No tienes permiso para descargar este archivo.');
+        }
+
+        // Cargar los modelos necesarios
+        $solicitudModel = new SolicitudModel();
+        $permisoModel = new PermisoModel();
+        $estadoModel = new EstadoSolicitudModel();
+        $usuarioModel = new UsuarioModel();
+
+        // Obtener los detalles de la solicitud
+        $detallePermiso = $solicitudModel->find($id_solicitud);
+
+        if ($detallePermiso) {
+            // Obtener datos adicionales
+            $detallePermiso['tipo_permiso'] = $permisoModel->find($detallePermiso['id_permiso'])['descripcion'];
+            $detallePermiso['estado'] = $estadoModel->find($detallePermiso['estado_solicitud'])['estado'];
+
+            // Verificar si existe un supervisor
+            $supervisor = $usuarioModel->find($detallePermiso['supervisor_id']);
+            if ($supervisor && isset($supervisor['nombres'], $supervisor['apellidos'])) {
+                $detallePermiso['supervisor'] = $supervisor['nombres'] . ' ' . $supervisor['apellidos'];
+            } else {
+                $detallePermiso['supervisor'] = 'Sin Supervisor';
+            }
+
+            // Verificar si existe el solicitante
+            $solicitante = $usuarioModel->find($detallePermiso['id_usuario']);
+            if ($solicitante && isset($solicitante['nombres'], $solicitante['apellidos'])) {
+                $detallePermiso['solicitado_por'] = $solicitante['nombres'] . ' ' . $solicitante['apellidos'];
+            } else {
+                $detallePermiso['solicitado_por'] = 'Usuario no encontrado';
+            }
+
+            // Verificar si la solicitud está aprobada
+            if ($detallePermiso['estado'] != 'Aprobada') {
+                return redirect()->back()->with('error', 'Solo se pueden descargar solicitudes aprobadas.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Solicitud no encontrada.');
+        }
+
+        // Crear la vista que quieres renderizar como PDF
+        $data = [
+            'detallePermiso' => $detallePermiso
+        ];
+
+        // Cargar Dompdf
+        $dompdf = new Dompdf();
+        $html = view('gespe/solicitud/pdfSolicitudDerivada', $data);
+        $dompdf->loadHtml($html);
+
+        // Configurar el tamaño del papel y la orientación
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Renderizar el PDF
+        $dompdf->render();
+
+        // Guardar el PDF en una carpeta del servidor
+        $output = $dompdf->output();
+        $pdfFilePath = WRITEPATH . 'pdfs/solicitud_derivada_' . $id_solicitud . '.pdf';
+        file_put_contents($pdfFilePath, $output);
+
+        // Devolver el PDF como descarga
+        return $this->response->download($pdfFilePath, null)->setFileName('solicitud_derivada_' . $id_solicitud . '.pdf');
     }
 }

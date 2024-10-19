@@ -23,7 +23,7 @@
                         <?php if ($rol == 4): /* Rol Operativo */ ?>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label"><strong>Responsable</strong></label>
-                                <select id="tipo_responsable" class="form-select" onchange="toggleResponsable()" required>
+                                <select id="tipo_responsable" class="form-select" name="tipo_responsable" onchange="toggleResponsable()" required>
                                     <option value="supervisor">Supervisor</option>
                                     <option value="administrador">Administrador</option>
                                 </select>
@@ -44,18 +44,6 @@
                             <div id="admin_section" class="col-md-6 mb-3" style="display:none;">
                                 <label class="form-label"><strong>Selecciona un Administrador</strong></label>
                                 <select class="form-select" name="administrador_id">
-                                    <option value="" disabled selected>Selecciona un administrador</option>
-                                    <?php foreach ($administradores as $administrador): ?>
-                                        <option value="<?= esc($administrador['id_usuario']) ?>"><?= esc($administrador['nombres'] . ' ' . $administrador['apellidos']) ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                        <?php elseif ($rol == 3): /* Rol Supervisor */ ?>
-                            <!-- Si es supervisor, solo mostrar administradores -->
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label"><strong>Selecciona un Administrador</strong></label>
-                                <select class="form-select" name="administrador_id" required>
                                     <option value="" disabled selected>Selecciona un administrador</option>
                                     <?php foreach ($administradores as $administrador): ?>
                                         <option value="<?= esc($administrador['id_usuario']) ?>"><?= esc($administrador['nombres'] . ' ' . $administrador['apellidos']) ?></option>
