@@ -17,7 +17,7 @@
                                 <th>Desde</th>
                                 <th>Hasta</th>
                                 <th>Estado</th>
-                                <th>Derivado a</th>
+                                <th>Supervisor</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>

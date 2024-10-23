@@ -45,6 +45,10 @@
             <td><?= esc($detallePermiso['id_solicitud']) ?></td>
         </tr>
         <tr>
+            <th>Solicitante</th>
+            <td><?= esc($detallePermiso['solicitante']) ?></td>
+        </tr>
+        <tr>
             <th>Tipo de Permiso</th>
             <td><?= esc($detallePermiso['tipo_permiso']) ?></td>
         </tr>
@@ -67,6 +71,11 @@
         <tr>
             <th>Motivo</th>
             <td><?= esc($detallePermiso['motivo']) ?></td>
+        </tr>
+
+        <tr>
+            <th>Aprobado Por</th>
+            <td><?= esc($detallePermiso['administrador']) ?></td>
         </tr>
     </table>
 

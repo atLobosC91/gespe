@@ -23,7 +23,7 @@
                                 <th>Hasta</th>
                                 <th>Estado</th>
                                 <th>Solicitado por</th>
-                                <th>Derivado a</th>
+                                <th>Supervisor</th>
                                 <th>Administrador</th>
                                 <th>Acciones</th>
                             </tr>

@@ -6,7 +6,6 @@ use App\Models\SolicitudModel;
 use App\Models\PermisoModel;
 use App\Models\EstadoSolicitudModel;
 use App\Models\UsuarioModel;
-
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -83,7 +82,6 @@ class PermisoController extends BaseController
         echo view('gespe/solicitud/misSolicitudes', $data);
         echo view('gespe/incluir/footer_app', $data);
     }
-
     public function nuevaSolicitud()
     {
         $userData = $this->getUserData();
@@ -170,10 +168,14 @@ class PermisoController extends BaseController
             $detallePermiso['estado'] = $estadoModel->find($detallePermiso['estado_solicitud'])['estado'];
 
             // Verificación del supervisor
-            $supervisor = $usuarioModel->find($detallePermiso['supervisor_id']);
-            $detallePermiso['supervisor'] = ($supervisor && isset($supervisor['nombres']) && isset($supervisor['apellidos']))
-                ? $supervisor['nombres'] . ' ' . $supervisor['apellidos']
-                : 'Sin Supervisor';
+            if (isset($detallePermiso['supervisor_id']) && !is_null($detallePermiso['supervisor_id'])) {
+                $supervisor = $usuarioModel->find($detallePermiso['supervisor_id']);
+                $detallePermiso['supervisor'] = ($supervisor && isset($supervisor['nombres']) && isset($supervisor['apellidos']))
+                    ? $supervisor['nombres'] . ' ' . $supervisor['apellidos']
+                    : 'Sin Supervisor';
+            } else {
+                $detallePermiso['supervisor'] = 'Sin Supervisor';
+            }
 
             // Verificar si fue derivada
             if (!empty($detallePermiso['administrador_id'])) {
@@ -221,8 +223,24 @@ class PermisoController extends BaseController
         if ($detallePermiso) {
             $detallePermiso['tipo_permiso'] = $permisoModel->find($detallePermiso['id_permiso'])['descripcion'];
             $detallePermiso['estado'] = $estadoModel->find($detallePermiso['estado_solicitud'])['estado'];
+
+            // Obtener el supervisor
             $supervisor = $usuarioModel->find($detallePermiso['supervisor_id']);
-            $detallePermiso['supervisor'] = $supervisor ? $supervisor['nombres'] . ' ' . $supervisor['apellidos'] : 'Sin Supervisor';
+            $detallePermiso['supervisor'] = ($supervisor && isset($supervisor['nombres'], $supervisor['apellidos']))
+                ? $supervisor['nombres'] . ' ' . $supervisor['apellidos']
+                : 'Sin Supervisor';
+
+            // Obtener el administrador
+            $administrador = $usuarioModel->find($detallePermiso['administrador_id']);
+            $detallePermiso['administrador'] = ($administrador && isset($administrador['nombres'], $administrador['apellidos']))
+                ? $administrador['nombres'] . ' ' . $administrador['apellidos']
+                : 'Sin Administrador';
+
+            // Obtener el solicitante
+            $solicitante = $usuarioModel->find($detallePermiso['id_usuario']);
+            $detallePermiso['solicitante'] = ($solicitante && isset($solicitante['nombres'], $solicitante['apellidos']))
+                ? $solicitante['nombres'] . ' ' . $solicitante['apellidos']
+                : 'Desconocido';
 
             // Solo permitir descarga si está aprobado
             if ($detallePermiso['estado'] != 'Aprobado') {
@@ -254,6 +272,7 @@ class PermisoController extends BaseController
             return redirect()->back()->with('error', 'Solicitud no encontrada.');
         }
     }
+
 
     public function eliminarSolicitud($id_solicitud)
     {
@@ -413,11 +432,36 @@ class PermisoController extends BaseController
 
     public function rechazarSolicitudDerivada($id_solicitud)
     {
+        // Verificar que el usuario haya iniciado sesión y tenga el rol adecuado
+        $userData = $this->getUserData();
+        if ($userData['rol'] != 2 && $userData['rol'] != 3) {
+            return redirect()->back()->with('error', 'No tienes permiso para realizar esta acción.');
+        }
+
+        // Obtener el motivo del rechazo desde el formulario
         $motivo = $this->request->getPost('motivo');
 
-        // Aquí actualizarías la base de datos para rechazar la solicitud y guardar el motivo.
-        return redirect()->back()->with('success', 'Solicitud rechazada con motivo: ' . $motivo);
+        // Validar que el motivo no esté vacío
+        if (empty($motivo)) {
+            return redirect()->back()->with('error', 'Debe proporcionar un motivo para rechazar la solicitud.');
+        }
+
+        // Cargar el modelo de solicitud
+        $solicitudModel = new SolicitudModel();
+
+        // Actualizar el estado de la solicitud a "Rechazada" (supongamos que el estado 3 es "Rechazada")
+        $data = [
+            'estado_solicitud' => 3, // Estado de "Rechazada"
+            'motivo_rechazo' => $motivo, // Almacenar el motivo de rechazo
+        ];
+
+        // Actualizar la solicitud en la base de datos
+        $solicitudModel->update($id_solicitud, $data);
+
+        // Redirigir con mensaje de éxito
+        return redirect()->to('gespe/solicitudesDerivadas')->with('success', 'Solicitud rechazada correctamente.');
     }
+
 
     public function aprobarSolicitud($id_solicitud)
     {
@@ -475,8 +519,16 @@ class PermisoController extends BaseController
                 $detallePermiso['solicitado_por'] = 'Usuario no encontrado';
             }
 
+            // Verificar si existe el administrador asignado
+            $administrador = $usuarioModel->find($detallePermiso['administrador_id']);
+            if ($administrador && isset($administrador['nombres'], $administrador['apellidos'])) {
+                $detallePermiso['administrador'] = $administrador['nombres'] . ' ' . $administrador['apellidos'];
+            } else {
+                $detallePermiso['administrador'] = 'No Derivada';
+            }
+
             // Verificar si la solicitud está aprobada
-            if ($detallePermiso['estado'] != 'Aprobada') {
+            if ($detallePermiso['estado_solicitud'] != 2) { // 2 representa el estado "Aprobada"
                 return redirect()->back()->with('error', 'Solo se pueden descargar solicitudes aprobadas.');
             }
         } else {
@@ -490,7 +542,7 @@ class PermisoController extends BaseController
 
         // Cargar Dompdf
         $dompdf = new Dompdf();
-        $html = view('gespe/solicitud/pdfSolicitudDerivada', $data);
+        $html = view('gespe/solicitudesDerivadas/pdfSolicitudDerivada', $data);
         $dompdf->loadHtml($html);
 
         // Configurar el tamaño del papel y la orientación

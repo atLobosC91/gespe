@@ -80,7 +80,7 @@
             </div>
             <div class="col-md-6 mb-4 d-flex flex-column align-items-center">
                 <div class="card shadow-sm h-100 border-0">
-                    <img src="/assets/img/team/team-2.jpg" class="card-img-top" alt="Alexi Rojas" style="object-fit: cover; height: 300px;">
+                    <img src="/assets/img/team/team-3.jpg" class="card-img-top" alt="Alexi Rojas" style="object-fit: cover; height: 300px;">
                     <div class="card-body text-center">
                         <h5 class="card-title">Alexi Rojas V.</h5>
                         <p class="card-text">“La clave de nuestro éxito radica en nuestro equipo capacitado y comprometido, siempre dispuesto a superar las expectativas del cliente”.</p>
