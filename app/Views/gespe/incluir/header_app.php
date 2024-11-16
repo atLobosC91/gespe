@@ -1,6 +1,6 @@
 <?php
 $rol = isset($usuario['id_rol']) ? $usuario['id_rol'] : null;
-echo "Rol del usuario: " . $rol;
+//echo "Rol del usuario: " . $rol;
 ?>
 
 <!DOCTYPE html>

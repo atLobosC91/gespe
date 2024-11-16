@@ -131,44 +131,45 @@ class UsuarioController extends BaseController
 
 
 
-    public function actualizar($id)
-    {
-        $validation = \Config\Services::validation();
+public function actualizar($id)
+{
+    $validation = \Config\Services::validation();
 
-        $validation->setRules([
-            'nombres' => 'required|min_length[3]|max_length[100]',
-            'apellidos' => 'required|min_length[3]|max_length[100]',
-            'correo' => 'required|valid_email',
-            'telefono' => 'required|regex_match[/^569[0-9]{8}$/]',
-            'rol' => 'required',
-            'estado' => 'required'
-        ]);
+    $validation->setRules([
+        'nombres' => 'required|min_length[3]|max_length[100]',
+        'apellidos' => 'required|min_length[3]|max_length[100]',
+        'correo' => 'required|valid_email',
+        'telefono' => 'required|regex_match[/^569[0-9]{8}$/]',
+        'rol' => 'required',
+        'estado' => 'required'
+    ]);
 
-        if (!$validation->withRequest($this->request)->run()) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-        }
-
-        // Si el usuario decide cambiar la contraseña
-        $password = $this->request->getPost('password');
-        if (!empty($password)) {
-            $data['password'] = password_hash($password, PASSWORD_DEFAULT);
-        }
-
-        $data = [
-            'nombres' => $this->request->getPost('nombres'),
-            'apellidos' => $this->request->getPost('apellidos'),
-            'correo' => $this->request->getPost('correo'),
-            'telefono' => $this->request->getPost('telefono'),
-            'id_rol' => $this->request->getPost('rol'),
-            'activo' => $this->request->getPost('estado')
-        ];
-
-        // Actualizamos los datos en la base de datos
-        $this->usuariosModel->update($id, $data);
-
-        // Redirigir con mensaje de éxito
-        return redirect()->to('gespe/usuarios/nomina')->with('success', 'Usuario actualizado exitosamente.');
+    if (!$validation->withRequest($this->request)->run()) {
+        return redirect()->back()->withInput()->with('errors', $validation->getErrors());
     }
+
+    // Construir los datos básicos
+    $data = [
+        'nombres' => $this->request->getPost('nombres'),
+        'apellidos' => $this->request->getPost('apellidos'),
+        'correo' => $this->request->getPost('correo'),
+        'telefono' => $this->request->getPost('telefono'),
+        'id_rol' => $this->request->getPost('rol'),
+        'activo' => $this->request->getPost('estado')
+    ];
+
+    // Procesar la contraseña si se proporciona
+    $password = $this->request->getPost('password');
+    if (!empty($password)) {
+        $data['password'] = password_hash($password, PASSWORD_DEFAULT); // Generar el hash
+    }
+
+    // Actualizar los datos en la base de datos
+    $this->usuariosModel->update($id, $data);
+
+    return redirect()->to('gespe/usuarios/nomina')->with('success', 'Usuario actualizado exitosamente.');
+}
+
 
     public function eliminar($id)
     {
