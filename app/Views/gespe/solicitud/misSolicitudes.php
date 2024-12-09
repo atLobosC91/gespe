@@ -56,12 +56,18 @@
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                             <!-- Botón Eliminar -->
-                                            <form action="<?= site_url('gespe/solicitud/eliminarSolicitud/' . $permiso['id_solicitud']) ?>" method="post" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar esta solicitud?');">
-                                                <?= csrf_field() ?>
-                                                <button type="submit" class="btn btn-danger btn-sm">
+                                            <?php if ($permiso['eliminar_habilitado']): ?>
+                                                <form action="<?= site_url('gespe/solicitud/eliminarSolicitud/' . $permiso['id_solicitud']) ?>" method="post" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar esta solicitud?');">
+                                                    <?= csrf_field() ?>
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            <?php else: ?>
+                                                <button class="btn btn-danger btn-sm" disabled>
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
-                                            </form>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

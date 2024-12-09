@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\UsuarioModel;
 use App\Models\AreaModel;
 use App\Models\RolModel;
+use App\Models\EspecialidadModel;
 
 class UsuarioController extends BaseController
 {
@@ -52,12 +53,21 @@ class UsuarioController extends BaseController
         // Número de usuarios por página
         $perPage = 10;
 
-        // Obtener los usuarios con paginación
-        $data['usuarios'] = $this->usuariosModel->paginate($perPage, 'usuarios');
-        $data['pager'] = $this->usuariosModel->pager;
+        // Obtener los usuarios con sus roles y supervisores
+        $usuarios = $this->usuariosModel
+            ->select('usuario.id_usuario, usuario.nombres, usuario.apellidos, usuario.correo, usuario.telefono, rol.descripcion as rol, supervisor.nombres as supervisor')
+            ->join('rol', 'usuario.id_rol = rol.id_rol', 'left') // Asegúrate de que `rol.descripcion` esté en tu base de datos
+            ->join('usuario as supervisor', 'usuario.id_supervisor = supervisor.id_usuario', 'left')
+            ->paginate($perPage, 'usuarios');
 
-        // Combinar los datos del usuario con los demás datos de la vista
-        $data = array_merge($userData, $data);
+        // Obtener el paginador
+        $pager = $this->usuariosModel->pager;
+
+        // Pasar los datos a la vista
+        $data = array_merge($userData, [
+            'usuarios' => $usuarios,
+            'pager' => $pager,
+        ]);
 
         echo view('gespe/incluir/header_app', $data);
         echo view('gespe/usuarios/nomina', $data);
@@ -65,23 +75,28 @@ class UsuarioController extends BaseController
     }
 
 
-
     public function nuevoUsuario()
     {
-        // Obtener los datos del usuario logueado
         $userData = $this->getUserData();
 
-        // Obtener los roles y las áreas de la base de datos
-        $rolModel = new RolModel();  // Asegúrate de tener un modelo para la tabla de roles
-        $areaModel = new AreaModel();  // Asegúrate de tener un modelo para la tabla de áreas
+        // Obtener roles, áreas, especialidades y supervisores
+        $rolModel = new RolModel();
+        $areaModel = new AreaModel();
+        $especialidadModel = new EspecialidadModel();
+        $usuariosModel = new UsuarioModel();
 
-        $roles = $rolModel->findAll();  // Obtener todos los roles
-        $areas = $areaModel->findAll();  // Obtener todas las áreas
+        $roles = $rolModel->findAll();
+        $areas = $areaModel->findAll();
+        $especialidades = $especialidadModel->findAll();
 
-        // Pasar los datos a la vista
+        // Obtener supervisores para asignar a operativos
+        $supervisores = $usuariosModel->where('id_rol', 3)->findAll(); // Rol 3 es supervisor
+
         $data = array_merge($userData, [
             'roles' => $roles,
-            'areas' => $areas
+            'areas' => $areas,
+            'especialidades' => $especialidades,
+            'supervisores' => $supervisores
         ]);
 
         echo view('gespe/incluir/header_app', $data);
@@ -89,86 +104,88 @@ class UsuarioController extends BaseController
         echo view('gespe/incluir/footer_app');
     }
 
-
     public function crearUsuario()
     {
-        $userData = $this->getUserData();
-
-        // Validar los datos del formulario
         $validation = \Config\Services::validation();
 
         $validation->setRules([
             'nombres' => 'required|min_length[3]|max_length[100]',
             'apellidos' => 'required|min_length[3]|max_length[100]',
+            'usuario' => 'required|min_length[3]|max_length[50]|is_unique[usuario.usuario]',
+            'password' => 'required|min_length[8]',
             'correo' => 'required|valid_email|is_unique[usuario.correo]',
             'telefono' => 'required|regex_match[/^569[0-9]{8}$/]',
-            'rol' => 'required',
-            'password' => 'required|min_length[8]',
+            'direccion' => 'required|max_length[255]',
+            'rol' => 'required|is_not_unique[rol.id_rol]',
+            'id_area' => 'required|is_not_unique[area.id]',
+            'id_especialidad' => 'required|is_not_unique[especialidad.id]',
+            'id_supervisor' => 'permit_empty|is_not_unique[usuario.id_usuario]',
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
-        // Si la validación es correcta, creamos el nuevo usuario
         $data = [
             'nombres' => $this->request->getPost('nombres'),
             'apellidos' => $this->request->getPost('apellidos'),
             'usuario' => $this->request->getPost('usuario'),
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'correo' => $this->request->getPost('correo'),
             'telefono' => $this->request->getPost('telefono'),
+            'direccion' => $this->request->getPost('direccion'),
             'id_rol' => $this->request->getPost('rol'),
-            'id_area' => $this->request->getPost('id'),  // Asegúrate de que estás enviando el área
-            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'id_area' => $this->request->getPost('id_area'),
+            'id_especialidad' => $this->request->getPost('id_especialidad'),
+            'id_supervisor' => $this->request->getPost('id_supervisor') ?: null, // Supervisor es opcional
+            'activo' => 1,
         ];
 
         $this->usuariosModel->insert($data);
 
-
-        // Redirigir a la nómina de usuarios con un mensaje de éxito
         return redirect()->to('gespe/usuarios/nomina')->with('success', 'Usuario creado exitosamente.');
     }
 
 
 
-public function actualizar($id)
-{
-    $validation = \Config\Services::validation();
+    public function actualizar($id)
+    {
+        $validation = \Config\Services::validation();
 
-    $validation->setRules([
-        'nombres' => 'required|min_length[3]|max_length[100]',
-        'apellidos' => 'required|min_length[3]|max_length[100]',
-        'correo' => 'required|valid_email',
-        'telefono' => 'required|regex_match[/^569[0-9]{8}$/]',
-        'rol' => 'required',
-        'estado' => 'required'
-    ]);
+        $validation->setRules([
+            'nombres' => 'required|min_length[3]|max_length[100]',
+            'apellidos' => 'required|min_length[3]|max_length[100]',
+            'correo' => 'required|valid_email',
+            'telefono' => 'required|regex_match[/^569[0-9]{8}$/]',
+            'rol' => 'required',
+            'estado' => 'required'
+        ]);
 
-    if (!$validation->withRequest($this->request)->run()) {
-        return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        // Construir los datos básicos
+        $data = [
+            'nombres' => $this->request->getPost('nombres'),
+            'apellidos' => $this->request->getPost('apellidos'),
+            'correo' => $this->request->getPost('correo'),
+            'telefono' => $this->request->getPost('telefono'),
+            'id_rol' => $this->request->getPost('rol'),
+            'activo' => $this->request->getPost('estado')
+        ];
+
+        // Procesar la contraseña si se proporciona
+        $password = $this->request->getPost('password');
+        if (!empty($password)) {
+            $data['password'] = password_hash($password, PASSWORD_DEFAULT); // Generar el hash
+        }
+
+        // Actualizar los datos en la base de datos
+        $this->usuariosModel->update($id, $data);
+
+        return redirect()->to('gespe/usuarios/nomina')->with('success', 'Usuario actualizado exitosamente.');
     }
-
-    // Construir los datos básicos
-    $data = [
-        'nombres' => $this->request->getPost('nombres'),
-        'apellidos' => $this->request->getPost('apellidos'),
-        'correo' => $this->request->getPost('correo'),
-        'telefono' => $this->request->getPost('telefono'),
-        'id_rol' => $this->request->getPost('rol'),
-        'activo' => $this->request->getPost('estado')
-    ];
-
-    // Procesar la contraseña si se proporciona
-    $password = $this->request->getPost('password');
-    if (!empty($password)) {
-        $data['password'] = password_hash($password, PASSWORD_DEFAULT); // Generar el hash
-    }
-
-    // Actualizar los datos en la base de datos
-    $this->usuariosModel->update($id, $data);
-
-    return redirect()->to('gespe/usuarios/nomina')->with('success', 'Usuario actualizado exitosamente.');
-}
 
 
     public function eliminar($id)

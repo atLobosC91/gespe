@@ -23,14 +23,14 @@
                         <div class="col-md-6 mb-3">
                             <div class="form-floating">
                                 <input class="form-control" id="inputNombre" name="nombres" type="text" value="<?= esc($usuario['nombres']) ?>" required />
-                                <label for="inputNombre">Nombre:</label>
+                                <label for="inputNombre">Nombres:</label>
                             </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <div class="form-floating">
                                 <input class="form-control" id="inputApellido" name="apellidos" type="text" value="<?= esc($usuario['apellidos']) ?>" required />
-                                <label for="inputApellido">Apellido:</label>
+                                <label for="inputApellido">Apellidos:</label>
                             </div>
                         </div>
 
@@ -50,15 +50,47 @@
 
                         <div class="col-md-6 mb-3">
                             <div class="form-floating">
-                                <input class="form-control" id="inputDireccion" name="direccion" type="text" value="<?= esc($usuario['direccion']) ?>" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\#\-]+" title="La dirección solo puede contener letras, números, espacios, # y -" maxlength="100" required />
-                                <label for="inputDireccion">Dirección:</label>
+                                <input class="form-control" id="inputRol" type="text" value="<?= esc($usuario['id_rol'] == 2 ? 'Administrador' : ($usuario['id_rol'] == 3 ? 'Supervisor' : ($usuario['id_rol'] == 4 ? 'Operativo' : 'Gerente'))) ?>" readonly />
+                                <label for="inputRol">Rol:</label>
                             </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <div class="form-floating">
-                                <input class="form-control" id="inputRol" type="text" value="<?= esc($usuario['id_rol'] == 2 ? 'Administrador' : ($usuario['id_rol'] == 3 ? 'Supervisor' : ($usuario['id_rol'] == 4 ? 'Operativo' : 'Gerente'))) ?>" readonly />
-                                <label for="inputRol">Rol:</label>
+                                <input class="form-control" id="inputDireccion" name="direccion" type="text" value="<?= esc($usuario['direccion']) ?>" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s\#\-]+" title="La dirección solo puede contener letras, números, espacios, # y -" maxlength="100" required />
+                                <label for="inputDireccion">Dirección:</label>
+                            </div>
+                        </div>
+
+                        <!-- Selección de Área -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <select class="form-control" id="inputArea" name="id_area" required>
+                                    <option value="">Seleccione un área</option>
+                                    <?php foreach ($areas as $area): ?>
+                                        <option value="<?= esc($area['id']) ?>" 
+                                            <?= $usuario['id_area'] == $area['id'] ? 'selected' : '' ?>>
+                                            <?= esc($area['descripcion']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <label for="inputArea">Área:</label>
+                            </div>
+                        </div>
+
+                        <!-- Selección de Especialidad -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                <select class="form-control" id="inputEspecialidad" name="id_especialidad" required>
+                                    <option value="">Seleccione una especialidad</option>
+                                    <?php foreach ($especialidades as $especialidad): ?>
+                                        <option value="<?= esc($especialidad['id']) ?>" 
+                                            <?= $usuario['id_especialidad'] == $especialidad['id'] ? 'selected' : '' ?>>
+                                            <?= esc($especialidad['descripcion']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <label for="inputEspecialidad">Especialidad:</label>
                             </div>
                         </div>
                     </div>
@@ -76,7 +108,6 @@
                             </a>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>

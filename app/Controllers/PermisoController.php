@@ -45,7 +45,7 @@ class PermisoController extends BaseController
         $usuarioModel = new UsuarioModel();
 
         $search = $this->request->getGet('search');
-        $perPage = 5;
+        $perPage = 15;
 
         if ($search) {
             $permisos = $solicitudModel->like('descripcion', $search)
@@ -68,6 +68,9 @@ class PermisoController extends BaseController
             } else {
                 $permiso['supervisor'] = 'Sin Supervisor';
             }
+
+            // Agregar estado booleano para habilitar el botón de eliminar
+            $permiso['eliminar_habilitado'] = ($permiso['estado_solicitud'] == 1); // 1 = En curso
         }
 
         $data = array_merge($userData, [
@@ -82,6 +85,8 @@ class PermisoController extends BaseController
         echo view('gespe/solicitud/misSolicitudes', $data);
         echo view('gespe/incluir/footer_app', $data);
     }
+
+
     public function nuevaSolicitud()
     {
         $userData = $this->getUserData();
@@ -89,15 +94,15 @@ class PermisoController extends BaseController
         $permisoModel = new PermisoModel();
         $usuarioModel = new UsuarioModel();
 
-        // Obtener supervisores (id_rol = 3) y administradores (id_rol = 2)
-        $supervisores = $usuarioModel->where('id_rol', 3)->findAll();  // Supervisores
-        $administradores = $usuarioModel->where('id_rol', 2)->findAll();  // Administradores
+        // Obtener el supervisor asignado al usuario actual
+        $supervisor = null;
+        if (!empty($userData['usuario']['id_supervisor'])) {
+            $supervisor = $usuarioModel->find($userData['usuario']['id_supervisor']);
+        }
 
         $data = array_merge($userData, [
             'tiposPermiso' => $permisoModel->findAll(),
-            'supervisores' => $supervisores,
-            'administradores' => $administradores,
-            'rol' => $userData['rol'] // Pasar el rol a la vista
+            'supervisor' => $supervisor, // Pasar el supervisor a la vista
         ]);
 
         echo view('gespe/incluir/header_app', $data);
@@ -107,13 +112,16 @@ class PermisoController extends BaseController
 
 
 
+
     public function crearSolicitud()
     {
         $userData = $this->getUserData();
 
+        // Fechas de inicio y fin
         $fecha_hora_inicio = $this->request->getPost('fecha_hora_inicio');
         $fecha_hora_fin = $this->request->getPost('fecha_hora_fin');
 
+        // Validar fechas
         $inicio = new \DateTime($fecha_hora_inicio);
         $fin = new \DateTime($fecha_hora_fin);
 
@@ -121,35 +129,26 @@ class PermisoController extends BaseController
             return redirect()->back()->withInput()->with('error', 'La fecha de fin no puede ser anterior a la fecha de inicio.');
         }
 
-        // Determinar si se ha seleccionado un supervisor o administrador
-        $tipo_responsable = $this->request->getPost('tipo_responsable');
-
-        if ($tipo_responsable === 'supervisor') {
-            $responsable_id = $this->request->getPost('supervisor_id');
-        } else {
-            $responsable_id = $this->request->getPost('administrador_id');
-        }
-
-        if (empty($responsable_id)) {
-            return redirect()->back()->with('error', 'Debe seleccionar un responsable para la solicitud.');
-        }
-
+        // Preparar datos para guardar la solicitud
         $data = [
             'id_usuario' => $userData['usuario']['id_usuario'],
             'id_permiso' => $this->request->getPost('id_permiso'),
+            'supervisor_id' => $this->request->getPost('supervisor_id'),
             'fecha_hora_inicio' => $fecha_hora_inicio,
             'fecha_hora_fin' => $fecha_hora_fin,
             'motivo' => $this->request->getPost('motivo'),
-            'supervisor_id' => ($tipo_responsable === 'supervisor') ? $responsable_id : null, // Guardar en `supervisor_id` solo si es supervisor
-            'administrador_id' => ($tipo_responsable === 'administrador') ? $responsable_id : null, // Guardar en `administrador_id` si es administrador
-            'estado_solicitud' => 1 // Estado en curso
+            'estado_solicitud' => 1, // Estado inicial: En curso
         ];
 
+        // Guardar la solicitud
         $solicitudModel = new SolicitudModel();
-        $solicitudModel->insert($data);
-
-        return redirect()->to('gespe/solicitud/misSolicitudes')->with('success', 'Solicitud creada correctamente.');
+        if ($solicitudModel->insert($data)) {
+            return redirect()->to('gespe/solicitud/misSolicitudes')->with('success', 'Solicitud creada correctamente.');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'No se pudo guardar la solicitud. Intente nuevamente.');
+        }
     }
+
 
 
     public function obtenerDetallesPermiso($id_solicitud)
@@ -300,7 +299,7 @@ class PermisoController extends BaseController
         $usuarioModel = new UsuarioModel();
 
         $search = $this->request->getGet('search');
-        $perPage = 5;
+        $perPage = 15;
 
         $solicitudes = [];
 

@@ -11,18 +11,25 @@ class PerfilController extends Controller
     {
         // Obtener la información del usuario actual
         $usuarioModel = new UsuarioModel();
+        $especialidadModel = new \App\Models\EspecialidadModel();
+        $areaModel = new \App\Models\AreaModel(); // Asegúrate de tener este modelo
         $session = session();
-        $usuario_id = $session->get('id_usuario'); // Asumiendo que guardaste el ID del usuario en la sesión
+        $usuario_id = $session->get('id_usuario');
         $usuario = $usuarioModel->find($usuario_id);
 
-        // Verificar si el usuario está logueado
         if (!$session->get('id_usuario') || !$session->get('id_rol')) {
             return redirect()->to('/login')->with('error', 'Inicia sesión para acceder a tu perfil.');
         }
 
-        // Crear la variable $data para pasar a las vistas
+        // Obtener la lista de especialidades y áreas
+        $especialidades = $especialidadModel->findAll();
+        $areas = $areaModel->findAll();
+
+        // Datos para la vista
         $data = [
             'usuario' => $usuario,
+            'especialidades' => $especialidades, // Enviar especialidades a la vista
+            'areas' => $areas, // Enviar áreas a la vista
             'rol' => $session->get('id_rol')
         ];
 
@@ -31,7 +38,6 @@ class PerfilController extends Controller
         echo view('gespe/perfil/mi_perfil', $data);
         echo view('gespe/incluir/footer_app', $data);
     }
-
 
     public function actualizarPerfil()
     {
@@ -49,14 +55,35 @@ class PerfilController extends Controller
             'telefono' => 'required|regex_match[/^569[0-9]{8}$/]',
             'correo' => 'required|valid_email',
             'direccion' => 'required',
+            'id_area' => 'required|is_not_unique[area.id_area]', // Validación para área
+            'id_especialidad' => 'required|is_not_unique[especialidad.id]' // Validación para especialidad
         ];
 
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        // Construir los datos a actualizar
+        $updateData = [
+            'usuario' => $data['usuario'],
+            'nombres' => $data['nombres'],
+            'apellidos' => $data['apellidos'],
+            'telefono' => $data['telefono'],
+            'correo' => $data['correo'],
+            'direccion' => $data['direccion'],
+            'id_area' => $data['id_area'], // Área seleccionada
+            'id_especialidad' => $data['id_especialidad'], // Especialidad seleccionada
+        ];
+
+        // Procesar la contraseña si se proporciona
+        if (!empty($data['password'])) {
+            $updateData['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        }
+
         // Actualizar los datos del usuario en la base de datos
-        $usuarioModel->update($usuario_id, $data);
+        if (!$usuarioModel->update($usuario_id, $updateData)) {
+            return redirect()->back()->withInput()->with('error', 'Error al actualizar el perfil. Intente nuevamente.');
+        }
 
         return redirect()->to('gespe/perfil/mi_perfil')->with('success', 'Perfil actualizado correctamente.');
     }

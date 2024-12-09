@@ -34,7 +34,7 @@ $rol = isset($usuario['id_rol']) ? $usuario['id_rol'] : null;
             <i class="fas fa-bars"></i>
         </button>
         <!-- User Dropdown Menu -->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <ul class="navbar-nav ms-auto ">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -95,6 +95,19 @@ $rol = isset($usuario['id_rol']) ? $usuario['id_rol'] : null;
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="<?= site_url('gespe/area/listaArea'); ?>">Lista de Áreas</a>
                                     <a class="nav-link" href="<?= site_url('gespe/area/nuevaArea'); ?>">Nueva Área</a>
+                                </nav>
+                            </div>
+
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseEspecialidad"
+                                aria-expanded="false" aria-controls="collapseEspecialidad">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Gestión de Especialidad
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseEspecialidad" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="<?= site_url('gespe/especialidad/listaEspecialidad'); ?>">Lista de Especialidad</a>
+                                    <a class="nav-link" href="<?= site_url('gespe/especialidad/nuevaEspecialidad'); ?>">Nueva Especialidad</a>
                                 </nav>
                             </div>
 

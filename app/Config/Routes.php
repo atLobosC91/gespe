@@ -41,6 +41,15 @@ $routes->get('gespe/area/modificar/(:num)', 'AreaController::modificar/$1');
 $routes->post('gespe/area/actualizar/(:num)', 'AreaController::actualizar/$1');
 $routes->get('gespe/area/eliminar/(:num)', 'AreaController::eliminar/$1');
 
+// Rutas de Especialidad
+$routes->get('gespe/especialidad/listaEspecialidad', 'EspecialidadController::listaEspecialidad');
+$routes->get('gespe/especialidad/nuevaEspecialidad', 'EspecialidadController::nuevaEspecialidad');
+$routes->post('gespe/especialidad/crearEspecialidad', 'EspecialidadController::crearEspecialidad');
+$routes->get('gespe/especialidad/modificar/(:num)', 'EspecialidadController::modificar/$1');
+$routes->post('gespe/especialidad/actualizar/(:num)', 'EspecialidadController::actualizar/$1');
+$routes->get('gespe/especialidad/eliminar/(:num)', 'EspecialidadController::eliminar/$1');
+
+
 
 // Rutas de Solicitudes de Permisos
 $routes->get('gespe/solicitud/misSolicitudes', 'PermisoController::misSolicitudes');

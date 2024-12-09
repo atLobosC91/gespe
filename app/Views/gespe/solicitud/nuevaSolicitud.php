@@ -19,38 +19,12 @@
                             </select>
                         </div>
 
-                        <!-- Selección del tipo de responsable -->
-                        <?php if ($rol == 4): /* Rol Operativo */ ?>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label"><strong>Responsable</strong></label>
-                                <select id="tipo_responsable" class="form-select" name="tipo_responsable" onchange="toggleResponsable()" required>
-                                    <option value="supervisor">Supervisor</option>
-                                    <option value="administrador">Administrador</option>
-                                </select>
-                            </div>
-
-                            <!-- Selección del supervisor -->
-                            <div id="supervisor_section" class="col-md-6 mb-3">
-                                <label class="form-label"><strong>Selecciona un Supervisor</strong></label>
-                                <select class="form-select" name="supervisor_id">
-                                    <option value="" disabled selected>Selecciona un supervisor</option>
-                                    <?php foreach ($supervisores as $supervisor): ?>
-                                        <option value="<?= esc($supervisor['id_usuario']) ?>"><?= esc($supervisor['nombres'] . ' ' . $supervisor['apellidos']) ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <!-- Selección del administrador -->
-                            <div id="admin_section" class="col-md-6 mb-3" style="display:none;">
-                                <label class="form-label"><strong>Selecciona un Administrador</strong></label>
-                                <select class="form-select" name="administrador_id">
-                                    <option value="" disabled selected>Selecciona un administrador</option>
-                                    <?php foreach ($administradores as $administrador): ?>
-                                        <option value="<?= esc($administrador['id_usuario']) ?>"><?= esc($administrador['nombres'] . ' ' . $administrador['apellidos']) ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        <?php endif; ?>
+                        <!-- Mostrar Supervisor Asignado -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><strong>Supervisor</strong></label>
+                            <input type="text" class="form-control" value="<?= isset($supervisor) ? esc($supervisor['nombres'] . ' ' . $supervisor['apellidos']) : 'Sin asignar' ?>" readonly>
+                            <input type="hidden" name="supervisor_id" value="<?= isset($supervisor) ? esc($supervisor['id_usuario']) : '' ?>">
+                        </div>
 
                         <!-- Fechas y motivo -->
                         <div class="col-md-6 mb-3">
@@ -82,17 +56,3 @@
             </div>
         </div>
     </main>
-
-    <script>
-        // Mostrar u ocultar secciones según el responsable seleccionado
-        function toggleResponsable() {
-            var tipoResponsable = document.getElementById("tipo_responsable").value;
-            if (tipoResponsable === "supervisor") {
-                document.getElementById("supervisor_section").style.display = "block";
-                document.getElementById("admin_section").style.display = "none";
-            } else {
-                document.getElementById("supervisor_section").style.display = "none";
-                document.getElementById("admin_section").style.display = "block";
-            }
-        }
-    </script>

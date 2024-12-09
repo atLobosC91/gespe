@@ -3,16 +3,19 @@
 namespace App\Controllers;
 
 use App\Models\UsuarioModel;
+use App\Models\SolicitudModel; // Modelo para la tabla de solicitudes
 
 class Gespe extends BaseController
 {
     protected $usuarioModel;
+    protected $solicitudModel;
     protected $session;
 
     public function __construct()
     {
-        // Inicializar el modelo y la sesión
+        // Inicializar los modelos y la sesión
         $this->usuarioModel = new UsuarioModel();
+        $this->solicitudModel = new SolicitudModel();
         $this->session = session();
     }
 
@@ -29,9 +32,30 @@ class Gespe extends BaseController
         // Obtener el rol del usuario
         $rol = $usuario['id_rol'];
 
-        // Cargar la vista unificada con el rol y los datos del usuario
+        // Calcular permisos del mes actual
+        $currentMonth = date('m');
+        $currentYear = date('Y');
+        $id_usuario = $usuario['id_usuario'];
+
+        $permisosMesActual = $this->solicitudModel
+            ->where('id_usuario', $id_usuario)
+            ->where('MONTH(fecha_hora_inicio)', $currentMonth)
+            ->where('YEAR(fecha_hora_inicio)', $currentYear)
+            ->countAllResults();
+
+        // Calcular permisos totales
+        $permisosTotales = $this->solicitudModel
+            ->where('id_usuario', $id_usuario)
+            ->countAllResults();
+
+        // Cargar la vista unificada con los datos necesarios
         return view('gespe/incluir/header_app', ['usuario' => $usuario, 'rol' => $rol])
-            . view('gespe/panelInicio', ['usuario' => $usuario, 'rol' => $rol])
+            . view('gespe/panelInicio', [
+                'usuario' => $usuario,
+                'rol' => $rol,
+                'permisosMesActual' => $permisosMesActual,
+                'permisosTotales' => $permisosTotales
+            ])
             . view('gespe/incluir/footer_app');
     }
 
